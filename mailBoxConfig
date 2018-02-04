@@ -1,0 +1,14 @@
+#!/bin/sh
+export FLASK_APP=blog.py
+export MAIL_USERNAME=noreplyDummy@163.com
+export MAIL_PASSWORD=Virulent8
+export MAIL_SERVER=smtp.163.com
+export MAIL_PORT=465
+export FLASKY_ADMIN=hsy_123@163.com
+export MAIL_USE_SSL=1
+export MAIL_USE_TLS=0
+
+# s = smtplib.SMTP('smtp-mail.outlook.com', 587)
+# s = smtplib.SMTP('smtp.sohu.com', 587)
+# s = smtplib.SMTP('smtp.gmail.com', 587)
+# s =smtplib.SMTP('smtp.163.com', 465)

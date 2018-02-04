@@ -1,0 +1,2135 @@
+
+* VRANDEV_SWA_X460.8 # show vlan
+-----------------------------------------------------------------------------------------------
+Name            VID  Protocol Addr       Flags                         Proto  Ports  Virtual
+                                                                              Active router
+                                                                              /Total
+-----------------------------------------------------------------------------------------------
+bb_up           20   172.16.0.251   /24  -f--------------------------- ANY    1 /1   VR-Default
+cee_ctrl_sp     2    192.168.2.8    /25  ----------------------------- ANY    18/18  VR-Default
+cee_om_sp       132  10.68.32.1     /28  -f--------------------------- ANY    2 /2   VR-Default
+Default         1    ------------------------------------------------- ANY    0 /0   VR-Default
+fuel_ctrl_sp    28   192.168.0.1    /24  -f--------------------------- ANY    18/18  VR-Default
+inter_switch_link 4000 30.30.30.1     /30  -f--------------------------- ANY    1 /1   VR-Default
+Mgmt            4095 ------------------------------------------------- ANY    0 /1   VR-Mgmt
+subrack_ctrl_sp 3    10.0.3.1       /25  -f--------------------------- ANY    24/24  VR-Default
+subrack_om_sp   23   ------------------------------------------------- ANY    1 /1   VR-Default
+tenant_1003     1003 ------------------------------------------------- ANY    2 /2   VR-Default
+uplink_to_ECN   1207 10.68.80.12    /24  -f--------------------------- ANY    1 /1   VR-Default
+-----------------------------------------------------------------------------------------------
+Flags : (B) BFD Enabled, (c) 802.1ad customer VLAN, (C) EAPS Control VLAN,
+        (d) Dynamically created VLAN, (D) VLAN Admin Disabled,
+        (e) CES Configured, (E) ESRP Enabled, (f) IP Forwarding Enabled,
+        (F) Learning Disabled, (h) TRILL Enabled, (i) ISIS Enabled,
+        (I) Inter-Switch Connection VLAN for MLAG, (k) PTP Configured,
+        (l) MPLS Enabled, (L) Loopback Enabled, (m) IPmc Forwarding Enabled,
+        (M) Translation Member VLAN or Subscriber VLAN, (n) IP Multinetting Enabled,
+        (N) Network Login VLAN, (o) OSPF Enabled, (O) Flooding Disabled,
+        (p) PIM Enabled, (P) EAPS protected VLAN, (r) RIP Enabled,
+        (R) Sub-VLAN IP Range Configured, (s) Sub-VLAN, (S) Super-VLAN,
+        (t) Translation VLAN or Network VLAN, (T) Member of STP Domain,
+        (v) VRRP Enabled, (V) VPLS Enabled, (W) VPWS Enabled, (Z) OpenFlow Enabled
+
+Total number of VLAN(s) : 11
+* VRANDEV_SWA_X460.9 # show subrack_
+  <vlan_name>     VLAN Name
+    "subrack_ctrl_sp"  "subrack_om_sp"
+* VRANDEV_SWA_X460.9 # show "subrack_ctrl_sp"
+VLAN Interface with name subrack_ctrl_sp created by user
+    Admin State:         Enabled     Tagging:   802.1Q Tag 3
+    Description:         None
+    Virtual router:      VR-Default
+    IPv4 Forwarding:     Enabled
+    IPv4 MC Forwarding:  Disabled
+    Primary IP:          10.0.3.1/25
+    IPv6 Forwarding:     Disabled
+    IPv6 MC Forwarding:  Disabled
+    IPv6:                None
+    STPD:                None
+    Protocol:            Match all unfiltered protocols
+    Loopback:            Disabled
+    NetLogin:            Disabled
+    OpenFlow:            Disabled
+    TRILL:               Disabled
+    QosProfile:          None configured
+    Egress Rate Limit Designated Port: None configured
+    Flood Rate Limit QosProfile:       None configured
+    Ports:   24.          (Number of active ports=24)
+       Untag:      *1,     *2,     *3,     *4,     *5,     *6,     *7,
+                   *8,     *9,    *10,    *11,    *12,    *13,    *14,
+                  *15,    *16,    *36,    *38,    *40,    *42
+       Tag:       *17,    *33,    *34,    *51
+        Flags:    (*) Active, (!) Disabled, (g) Load Sharing port
+                  (b) Port blocked on the vlan, (m) Mac-Based port
+                  (a) Egress traffic allowed for NetLogin
+                  (u) Egress traffic unallowed for NetLogin
+                  (t) Translate VLAN tag for Private-VLAN
+                  (s) Private-VLAN System Port, (L) Loopback port
+                  (x) VMAN Tag Translated port
+                  (G) Multi-switch LAG Group port
+                  (H) Dynamically added by MVRP
+                  (D) TRILL Designated, (A) TRILL Appointed Forwarder
+                  (I) Dynamically added by IDM
+                  (U) Dynamically added uplink port
+                  (V) Dynamically added by VM Tracking
+
+* VRANDEV_SWA_X460.10 # configure subrack_
+  <vlan_name>     VLAN Name
+    "subrack_ctrl_sp"  "subrack_om_sp"
+* VRANDEV_SWA_X460.10 # configure "subrack_ctrl_sp" add ports 36,38,40,42 untagged
+* VRANDEV_SWA_X460.11 # enable ports 36,38,40,42
+* VRANDEV_SWA_X460.12 # show ports 36,38,40,42
+* VRANDEV_SWA_X460.13 # ping 10.0.3.36
+Ping(ICMP) 10.0.3.36: 4 packets, 8 data bytes, interval 1 second(s).
+16 bytes from 10.0.3.36: icmp_seq=0 ttl=64 time=7.220 ms
+16 bytes from 10.0.3.36: icmp_seq=1 ttl=64 time=0.398 ms
+16 bytes from 10.0.3.36: icmp_seq=2 ttl=64 time=2.288 ms
+16 bytes from 10.0.3.36: icmp_seq=3 ttl=64 time=2.647 ms
+
+--- 10.0.3.36 ping statistics ---
+4 packets transmitted, 4 packets received, 0% loss
+round-trip min/avg/max = 0/3/7 ms
+* VRANDEV_SWA_X460.14 # ping 10.0.3.37
+Ping(ICMP) 10.0.3.37: 4 packets, 8 data bytes, interval 1 second(s).
+16 bytes from 10.0.3.37: icmp_seq=0 ttl=64 time=9.429 ms
+16 bytes from 10.0.3.37: icmp_seq=1 ttl=64 time=2.432 ms
+16 bytes from 10.0.3.37: icmp_seq=2 ttl=64 time=2.244 ms
+16 bytes from 10.0.3.37: icmp_seq=3 ttl=64 time=0.408 ms
+
+--- 10.0.3.37 ping statistics ---
+4 packets transmitted, 4 packets received, 0% loss
+round-trip min/avg/max = 0/3/9 ms
+* VRANDEV_SWA_X460.15 # ping 10.0.3.38
+Ping(ICMP) 10.0.3.38: 4 packets, 8 data bytes, interval 1 second(s).
+16 bytes from 10.0.3.38: icmp_seq=0 ttl=64 time=7.353 ms
+16 bytes from 10.0.3.38: icmp_seq=1 ttl=64 time=2.551 ms
+16 bytes from 10.0.3.38: icmp_seq=2 ttl=64 time=2.636 ms
+16 bytes from 10.0.3.38: icmp_seq=3 ttl=64 time=2.433 ms
+
+--- 10.0.3.38 ping statistics ---
+4 packets transmitted, 4 packets received, 0% loss
+round-trip min/avg/max = 2/3/7 ms
+* VRANDEV_SWA_X460.16 # ping 10.0.3.39
+Ping(ICMP) 10.0.3.39: 4 packets, 8 data bytes, interval 1 second(s).
+16 bytes from 10.0.3.39: icmp_seq=0 ttl=64 time=9.684 ms
+16 bytes from 10.0.3.39: icmp_seq=1 ttl=64 time=2.469 ms
+16 bytes from 10.0.3.39: icmp_seq=2 ttl=64 time=2.535 ms
+16 bytes from 10.0.3.39: icmp_seq=3 ttl=64 time=0.656 ms
+
+--- 10.0.3.39 ping statistics ---
+4 packets transmitted, 4 packets received, 0% loss
+round-trip min/avg/max = 0/3/9 ms
+* VRANDEV_SWA_X460.17 # save
+The configuration file primary.cfg already exists.
+Do you want to save configuration to primary.cfg and overwrite it? (y/N) Yes
+Saving configuration on master .... done!
+Configuration saved to primary.cfg successfully.
+VRANDEV_SWA_X460.18 # show vlan
+-----------------------------------------------------------------------------------------------
+Name            VID  Protocol Addr       Flags                         Proto  Ports  Virtual
+                                                                              Active router
+                                                                              /Total
+-----------------------------------------------------------------------------------------------
+bb_up           20   172.16.0.251   /24  -f--------------------------- ANY    1 /1   VR-Default
+cee_ctrl_sp     2    192.168.2.8    /25  ----------------------------- ANY    18/18  VR-Default
+cee_om_sp       132  10.68.32.1     /28  -f--------------------------- ANY    2 /2   VR-Default
+Default         1    ------------------------------------------------- ANY    0 /0   VR-Default
+fuel_ctrl_sp    28   192.168.0.1    /24  -f--------------------------- ANY    18/18  VR-Default
+inter_switch_link 4000 30.30.30.1     /30  -f--------------------------- ANY    1 /1   VR-Default
+Mgmt            4095 ------------------------------------------------- ANY    0 /1   VR-Mgmt
+subrack_ctrl_sp 3    10.0.3.1       /25  -f--------------------------- ANY    24/24  VR-Default
+subrack_om_sp   23   ------------------------------------------------- ANY    1 /1   VR-Default
+tenant_1003     1003 ------------------------------------------------- ANY    2 /2   VR-Default
+uplink_to_ECN   1207 10.68.80.12    /24  -f--------------------------- ANY    1 /1   VR-Default
+-----------------------------------------------------------------------------------------------
+Flags : (B) BFD Enabled, (c) 802.1ad customer VLAN, (C) EAPS Control VLAN,
+        (d) Dynamically created VLAN, (D) VLAN Admin Disabled,
+        (e) CES Configured, (E) ESRP Enabled, (f) IP Forwarding Enabled,
+        (F) Learning Disabled, (h) TRILL Enabled, (i) ISIS Enabled,
+        (I) Inter-Switch Connection VLAN for MLAG, (k) PTP Configured,
+        (l) MPLS Enabled, (L) Loopback Enabled, (m) IPmc Forwarding Enabled,
+        (M) Translation Member VLAN or Subscriber VLAN, (n) IP Multinetting Enabled,
+        (N) Network Login VLAN, (o) OSPF Enabled, (O) Flooding Disabled,
+        (p) PIM Enabled, (P) EAPS protected VLAN, (r) RIP Enabled,
+        (R) Sub-VLAN IP Range Configured, (s) Sub-VLAN, (S) Super-VLAN,
+        (t) Translation VLAN or Network VLAN, (T) Member of STP Domain,
+        (v) VRRP Enabled, (V) VPLS Enabled, (W) VPWS Enabled, (Z) OpenFlow Enabled
+
+Total number of VLAN(s) : 11
+VRANDEV_SWA_X460.19 # show fuel_ctrl_sp
+VLAN Interface with name fuel_ctrl_sp created by user
+    Admin State:         Enabled     Tagging:   802.1Q Tag 28
+    Description:         None
+    Virtual router:      VR-Default
+    IPv4 Forwarding:     Enabled
+    IPv4 MC Forwarding:  Disabled
+    Primary IP:          192.168.0.1/24
+    IPv6 Forwarding:     Disabled
+    IPv6 MC Forwarding:  Disabled
+    IPv6:                None
+    STPD:                None
+    Protocol:            Match all unfiltered protocols
+    Loopback:            Disabled
+    NetLogin:            Disabled
+    OpenFlow:            Disabled
+    TRILL:               Disabled
+    QosProfile:          None configured
+    Egress Rate Limit Designated Port: None configured
+    Flood Rate Limit QosProfile:       None configured
+    Ports:   18.          (Number of active ports=18)
+       Untag:     *17,    *18,    *19,    *20,    *21,    *22,    *23,
+                  *24,    *25,    *26,    *27,    *28,    *29,    *30,
+                  *31,    *32,    *33,    *35
+        Flags:    (*) Active, (!) Disabled, (g) Load Sharing port
+                  (b) Port blocked on the vlan, (m) Mac-Based port
+                  (a) Egress traffic allowed for NetLogin
+                  (u) Egress traffic unallowed for NetLogin
+                  (t) Translate VLAN tag for Private-VLAN
+                  (s) Private-VLAN System Port, (L) Loopback port
+                  (x) VMAN Tag Translated port
+                  (G) Multi-switch LAG Group port
+                  (H) Dynamically added by MVRP
+                  (D) TRILL Designated, (A) TRILL Appointed Forwarder
+                  (I) Dynamically added by IDM
+                  (U) Dynamically added uplink port
+                  (V) Dynamically added by VM Tracking
+
+VRANDEV_SWA_X460.20 # show port 20 information detail
+Port:   20
+        Virtual-router: VR-Default
+        Type:           UTP
+        Random Early drop:      Unsupported
+        Admin state:    Enabled with  auto-speed sensing  auto-duplex
+        Link State:     Active, 1Gbps, full-duplex
+        Link Ups:       3        Last: Sat Dec 16 12:35:41 2017
+        Link Downs:     2        Last: Sat Dec 16 12:35:23 2017
+
+        VLAN cfg:
+                 Name: fuel_ctrl_sp, Internal Tag = 28, MAC-limit = No-limit, Virtual router:   VR-Default
+                 Name: cee_ctrl_sp, 802.1Q Tag = 2, MAC-limit = No-limit, Virtual router:   VR-Default
+                       Port-specific VLAN ID:    2
+        STP cfg:
+
+        Protocol:
+                 Name: fuel_ctrl_sp Protocol: ANY      Match all protocols.
+        Trunking:       Load sharing is not enabled.
+
+        EDP:            Enabled
+
+        EEE:            Disabled
+        ELSM:           Disabled
+        Ethernet OAM:           Disabled
+        Learning:       Enabled
+        Unicast Flooding:       Enabled
+        Multicast Flooding:     Enabled
+        Broadcast Flooding:     Enabled
+        Jumbo:          Disabled
+        Flow Control:   Rx-Pause: Enabled       Tx-Pause: Disabled
+        Priority Flow Control: Disabled
+        Reflective Relay:       Disabled
+        Link up/down SNMP trap filter setting:  Enabled
+        Egress Port Rate:       No-limit
+        Broadcast Rate:         No-limit
+        Multicast Rate:         No-limit
+        Unknown Dest Mac Rate:  No-limit
+        QoS Profile:    None configured
+        Ingress Rate Shaping :          Unsupported
+        Ingress IPTOS Examination:      Disabled
+        Ingress 802.1p Examination:     Enabled
+VRANDEV_SWA_X460.21 # show port 17 information detail
+Port:   17
+        Virtual-router: VR-Default
+        Type:           UTP
+        Random Early drop:      Unsupported
+        Admin state:    Enabled with  auto-speed sensing  auto-duplex
+        Link State:     Active, 1Gbps, full-duplex
+        Link Ups:       3        Last: Sat Dec 16 12:36:21 2017
+        Link Downs:     2        Last: Sat Dec 16 12:36:02 2017
+
+        VLAN cfg:
+                 Name: fuel_ctrl_sp, Internal Tag = 28, MAC-limit = No-limit, Virtual router:   VR-Default
+                 Name: subrack_ctrl_sp, 802.1Q Tag = 3, MAC-limit = No-limit, Virtual router:   VR-Default
+                       Port-specific VLAN ID:    3
+                 Name: cee_ctrl_sp, 802.1Q Tag = 2, MAC-limit = No-limit, Virtual router:   VR-Default
+                       Port-specific VLAN ID:    2
+        STP cfg:
+
+        Protocol:
+                 Name: fuel_ctrl_sp Protocol: ANY      Match all protocols.
+        Trunking:       Load sharing is not enabled.
+
+        EDP:            Enabled
+
+        EEE:            Disabled
+        ELSM:           Disabled
+        Ethernet OAM:           Disabled
+        Learning:       Enabled
+        Unicast Flooding:       Enabled
+        Multicast Flooding:     Enabled
+        Broadcast Flooding:     Enabled
+        Jumbo:          Disabled
+        Flow Control:   Rx-Pause: Enabled       Tx-Pause: Disabled
+        Priority Flow Control: Disabled
+        Reflective Relay:       Disabled
+        Link up/down SNMP trap filter setting:  Enabled
+        Egress Port Rate:       No-limit
+        Broadcast Rate:         No-limit
+        Multicast Rate:         No-limit
+        Unknown Dest Mac Rate:  No-limit
+        QoS Profile:    None configured
+        Ingress Rate Shaping :          Unsupported
+VRANDEV_SWA_X460.22 # show port 35 information detail
+Port:   35
+        Description String: "br-fw-admin on dev kickstart"
+        Virtual-router: VR-Default
+        Type:           UTP
+        Random Early drop:      Unsupported
+        Admin state:    Enabled with  auto-speed sensing  auto-duplex
+        Link State:     Active, 1Gbps, full-duplex
+        Link Ups:       3        Last: Sat Dec 16 12:33:59 2017
+        Link Downs:     2        Last: Sat Dec 16 12:33:49 2017
+
+        VLAN cfg:
+                 Name: fuel_ctrl_sp, Internal Tag = 28, MAC-limit = No-limit, Virtual router:   VR-Default
+        STP cfg:
+
+        Protocol:
+                 Name: fuel_ctrl_sp Protocol: ANY      Match all protocols.
+        Trunking:       Load sharing is not enabled.
+
+        EDP:            Enabled
+
+        EEE:            Disabled
+        ELSM:           Disabled
+        Ethernet OAM:           Disabled
+        Learning:       Enabled
+        Unicast Flooding:       Enabled
+        Multicast Flooding:     Enabled
+        Broadcast Flooding:     Enabled
+        Jumbo:          Disabled
+        Flow Control:   Rx-Pause: Enabled       Tx-Pause: Disabled
+        Priority Flow Control: Disabled
+        Reflective Relay:       Disabled
+        Link up/down SNMP trap filter setting:  Enabled
+        Egress Port Rate:       No-limit
+        Broadcast Rate:         No-limit
+        Multicast Rate:         No-limit
+        Unknown Dest Mac Rate:  No-limit
+        QoS Profile:    None configured
+        Ingress Rate Shaping :          Unsupported
+        Ingress IPTOS Examination:      Disabled
+        Ingress 802.1p Examination:     Enabled
+        Ingress 802.1p Inner Exam:      Disabled
+VRANDEV_SWA_X460.23 # show port 30 information detail
+Port:   30
+        Virtual-router: VR-Default
+        Type:           UTP
+        Random Early drop:      Unsupported
+        Admin state:    Enabled with  auto-speed sensing  auto-duplex
+        Link State:     Active, 1Gbps, full-duplex
+        Link Ups:       1        Last: Sat Dec 16 12:33:37 2017
+        Link Downs:     0        Last: --
+
+        VLAN cfg:
+                 Name: fuel_ctrl_sp, Internal Tag = 28, MAC-limit = No-limit, Virtual router:   VR-Default
+                 Name: cee_ctrl_sp, 802.1Q Tag = 2, MAC-limit = No-limit, Virtual router:   VR-Default
+                       Port-specific VLAN ID:    2
+        STP cfg:
+
+        Protocol:
+                 Name: fuel_ctrl_sp Protocol: ANY      Match all protocols.
+        Trunking:       Load sharing is not enabled.
+
+        EDP:            Enabled
+
+        EEE:            Disabled
+        ELSM:           Disabled
+        Ethernet OAM:           Disabled
+        Learning:       Enabled
+        Unicast Flooding:       Enabled
+        Multicast Flooding:     Enabled
+        Broadcast Flooding:     Enabled
+        Jumbo:          Disabled
+        Flow Control:   Rx-Pause: Enabled       Tx-Pause: Disabled
+        Priority Flow Control: Disabled
+        Reflective Relay:       Disabled
+        Link up/down SNMP trap filter setting:  Enabled
+        Egress Port Rate:       No-limit
+        Broadcast Rate:         No-limit
+        Multicast Rate:         No-limit
+        Unknown Dest Mac Rate:  No-limit
+        QoS Profile:    None configured
+        Ingress Rate Shaping :          Unsupported
+        Ingress IPTOS Examination:      Disabled
+        Ingress 802.1p Examination:     Enabled
+VRANDEV_SWA_X460.24 # show "fuel_ctrl_sp"
+VLAN Interface with name fuel_ctrl_sp created by user
+    Admin State:         Enabled     Tagging:   802.1Q Tag 28
+    Description:         None
+    Virtual router:      VR-Default
+    IPv4 Forwarding:     Enabled
+    IPv4 MC Forwarding:  Disabled
+    Primary IP:          192.168.0.1/24
+    IPv6 Forwarding:     Disabled
+    IPv6 MC Forwarding:  Disabled
+    IPv6:                None
+    STPD:                None
+    Protocol:            Match all unfiltered protocols
+    Loopback:            Disabled
+    NetLogin:            Disabled
+    OpenFlow:            Disabled
+    TRILL:               Disabled
+    QosProfile:          None configured
+    Egress Rate Limit Designated Port: None configured
+    Flood Rate Limit QosProfile:       None configured
+    Ports:   18.          (Number of active ports=18)
+       Untag:     *17,    *18,    *19,    *20,    *21,    *22,    *23,
+                  *24,    *25,    *26,    *27,    *28,    *29,    *30,
+                  *31,    *32,    *33,    *35
+        Flags:    (*) Active, (!) Disabled, (g) Load Sharing port
+                  (b) Port blocked on the vlan, (m) Mac-Based port
+                  (a) Egress traffic allowed for NetLogin
+                  (u) Egress traffic unallowed for NetLogin
+                  (t) Translate VLAN tag for Private-VLAN
+                  (s) Private-VLAN System Port, (L) Loopback port
+                  (x) VMAN Tag Translated port
+                  (G) Multi-switch LAG Group port
+                  (H) Dynamically added by MVRP
+                  (D) TRILL Designated, (A) TRILL Appointed Forwarder
+                  (I) Dynamically added by IDM
+                  (U) Dynamically added uplink port
+                  (V) Dynamically added by VM Tracking
+
+VRANDEV_SWA_X460.25 # show "cee_ctrl_sp"
+VLAN Interface with name cee_ctrl_sp created by user
+    Admin State:         Enabled     Tagging:   802.1Q Tag 2
+    Description:         None
+    Virtual router:      VR-Default
+    IPv4 Forwarding:     Disabled
+    IPv4 MC Forwarding:  Disabled
+    Primary IP:          192.168.2.8/25
+    IPv6 Forwarding:     Disabled
+    IPv6 MC Forwarding:  Disabled
+    IPv6:                None
+    STPD:                None
+    Protocol:            Match all unfiltered protocols
+    Loopback:            Disabled
+    NetLogin:            Disabled
+    OpenFlow:            Disabled
+    TRILL:               Disabled
+    QosProfile:          None configured
+    Egress Rate Limit Designated Port: None configured
+    Flood Rate Limit QosProfile:       None configured
+    Ports:   18.          (Number of active ports=18)
+       Tag:       *17,    *18,    *19,    *20,    *21,    *22,    *23,
+                  *24,    *25,    *26,    *27,    *28,    *29,    *30,
+                  *31,    *32,    *33,    *51
+        Flags:    (*) Active, (!) Disabled, (g) Load Sharing port
+                  (b) Port blocked on the vlan, (m) Mac-Based port
+                  (a) Egress traffic allowed for NetLogin
+                  (u) Egress traffic unallowed for NetLogin
+                  (t) Translate VLAN tag for Private-VLAN
+                  (s) Private-VLAN System Port, (L) Loopback port
+                  (x) VMAN Tag Translated port
+                  (G) Multi-switch LAG Group port
+                  (H) Dynamically added by MVRP
+                  (D) TRILL Designated, (A) TRILL Appointed Forwarder
+                  (I) Dynamically added by IDM
+                  (U) Dynamically added uplink port
+                  (V) Dynamically added by VM Tracking
+
+VRANDEV_SWA_X460.26 # configure "fuel_ctrl_sp" add ports 37,39,41,43 untagged
+* VRANDEV_SWA_X460.27 # configure "cee_ctrl_sp" add ports 37,39,41,43 tagged
+* VRANDEV_SWA_X460.28 # show port
+* VRANDEV_SWA_X460.29 # show port
+* VRANDEV_SWA_X460.29 # show ports
+* VRANDEV_SWA_X460.30 # save
+The configuration file primary.cfg already exists.
+Do you want to save configuration to primary.cfg and overwrite it? (y/N) Yes
+Saving configuration on master .... done!
+Configuration saved to primary.cfg successfully.
+VRANDEV_SWA_X460.31 # exit
+
+Connection to 192.168.2.8 closed.
+[root@fuel ~]# ping 10.0.3.38 -c 1
+PING 10.0.3.38 (10.0.3.38) 56(84) bytes of data.
+64 bytes from 10.0.3.38: icmp_seq=1 ttl=64 time=3.58 ms
+
+--- 10.0.3.38 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 3.582/3.582/3.582/0.000 ms
+[root@fuel ~]# ping 10.0.3.36 -c 1
+PING 10.0.3.36 (10.0.3.36) 56(84) bytes of data.
+64 bytes from 10.0.3.36: icmp_seq=1 ttl=64 time=0.747 ms
+
+--- 10.0.3.36 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.747/0.747/0.747/0.000 ms
+[root@fuel ~]# ping 10.0.3.37 -c 1
+PING 10.0.3.37 (10.0.3.37) 56(84) bytes of data.
+64 bytes from 10.0.3.37: icmp_seq=1 ttl=64 time=0.696 ms
+
+--- 10.0.3.37 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.696/0.696/0.696/0.000 ms
+[root@fuel ~]# ping 10.0.3.39 -c 1
+PING 10.0.3.39 (10.0.3.39) 56(84) bytes of data.
+64 bytes from 10.0.3.39: icmp_seq=1 ttl=64 time=0.742 ms
+
+--- 10.0.3.39 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.742/0.742/0.742/0.000 ms
+[root@fuel ~]# pwd
+/root
+[root@fuel ~]#
+[root@fuel ~]#
+[root@fuel ~]# ssh traffic
+Warning: Permanently added '192.168.2.2' (DSA) to the list of known hosts.
+Keyboard-interactive authentication
+Enter password for admin:
+ExtremeXOS
+Copyright (C) 1996-2015 Extreme Networks. All rights reserved.
+This product is protected by one or more US patents listed at http://www.extremenetworks.com/patents along with their foreign counterparts.
+==============================================================================
+
+Press the <tab> or '?' key at any time for completions.
+Remember to save your configuration changes.
+
+
+VRANDEV01_SWA_X770.1 # show vlan
+-----------------------------------------------------------------------------------------------
+Name            VID  Protocol Addr       Flags                         Proto  Ports  Virtual
+                                                                              Active router
+                                                                              /Total
+-----------------------------------------------------------------------------------------------
+cee_ctrl_sp     2    192.168.2.2    /25  -------------v--------------- ANY    1 /2   VR-Default
+cee_om_sp       132  ------------------------------------------------- ANY    4 /4   VR-Default
+Default         1    ------------------------------------------------- ANY    0 /0   VR-Default
+inter_switch    4000 30.30.30.2     /30  -f--------------------------- ANY    1 /1   VR-Default
+iscsi_san_pda   11   192.168.11.1   /24  -f--------------------------- ANY    16/20  VR-Default
+Mgmt            4095 ------------------------------------------------- ANY    0 /1   VR-Mgmt
+migration_san_sp 14   192.168.14.1   /24  ----------------------------- ANY    16/20  VR-Default
+pod_sw_ctrl_isc 4    192.168.4.1    /30  -f--------------------------- ANY    0 /0   VR-Default
+subrack_ctrl_sp 3    ------------------------------------------------- ANY    4 /4   subrack_om
+subrack_om_sp   23   ------------------------------------------------- ANY    1 /1   subrack_om
+sw_ctrl_vip     6    192.168.6.1    /32  --L-------------------------- ANY    0 /0   VR-Default
+swift_san_sp    13   ------------------------------------------------- ANY    16/20  VR-Default
+tenan_1100      1100 172.16.16.1    /24  -f--------------------------- ANY    16/16  VR-Default
+tenan_1101      1101 10.0.0.1       /24  -f--------------------------- ANY    16/16  VR-Default
+tenan_1102      1102 172.16.18.1    /24  -f--------------------------- ANY    16/16  VR-Default
+tenan_1103      1103 192.168.68.1   /24  -f--------------------------- ANY    16/16  VR-Default
+tenant_1002     1002 10.21.120.1    /24  -f--------------------------- ANY    16/16  VR-Default
+tenant_1003     1003 10.21.130.1    /24  -f--------------------------- ANY    17/17  VR-Default
+tenant_1004     1004 10.21.140.1    /24  -f--------------------------- ANY    16/16  VR-Default
+tenant_1005     1005 10.21.150.1    /24  -f--------------------------- ANY    16/16  VR-Default
+tenant_1006     1006 10.68.32.49    /28  -f--------------------------- ANY    16/16  VR-Default
+tenant_1007     1007 10.21.170.1    /24  -f--------------------------- ANY    16/16  VR-Default
+tenant_2090     2090 10.68.32.65    /30  -f--------------------------- ANY    4 /4   VR-Default
+tenant_2091     2091 ------------------------------------------------- ANY    3 /3   VR-Default
+tenant_2092     2092 ------------------------------------------------- ANY    3 /3   VR-Default
+tenant_2093     2093 ------------------------------------------------- ANY    3 /3   VR-Default
+tenant_2094     2094 ------------------------------------------------- ANY    3 /3   VR-Default
+tenant_2095     2095 10.68.32.69    /30  -f--------------------------- ANY    4 /4   VR-Default
+tenant_2096     2096 ------------------------------------------------- ANY    3 /3   VR-Default
+tenant_2097     2097 ------------------------------------------------- ANY    3 /3   VR-Default
+tenant_2098     2098 ------------------------------------------------- ANY    3 /3   VR-Default
+tenant_234      234  10.21.210.1    /24  ----------------------------- ANY    16/16  VR-Default
+tenant_3000     3000 10.68.32.129   /25  -f--------------------------- ANY    17/17  VR-Default
+tenant_3001     3001 10.68.32.17    /28  -f--------------------------- ANY    17/17  VR-Default
+tenant_3584     3584 10.68.32.33    /29  -f--------------------------- ANY    4 /4   VR-Default
+tenant_3585     3585 10.68.32.41    /29  -f--------------------------- ANY    4 /4   VR-Default
+
+-----------------------------------------------------------------------------------------------
+Flags : (B) BFD Enabled, (c) 802.1ad customer VLAN, (C) EAPS Control VLAN,
+        (d) Dynamically created VLAN, (D) VLAN Admin Disabled,
+        (e) CES Configured, (E) ESRP Enabled, (f) IP Forwarding Enabled,
+        (F) Learning Disabled, (h) TRILL Enabled, (i) ISIS Enabled,
+        (I) Inter-Switch Connection VLAN for MLAG, (k) PTP Configured,
+        (l) MPLS Enabled, (L) Loopback Enabled, (m) IPmc Forwarding Enabled,
+        (M) Translation Member VLAN or Subscriber VLAN, (n) IP Multinetting Enabled,
+        (N) Network Login VLAN, (o) OSPF Enabled, (O) Flooding Disabled,
+        (p) PIM Enabled, (P) EAPS protected VLAN, (r) RIP Enabled,
+        (R) Sub-VLAN IP Range Configured, (s) Sub-VLAN, (S) Super-VLAN,
+        (t) Translation VLAN or Network VLAN, (T) Member of STP Domain,
+        (v) VRRP Enabled, (V) VPLS Enabled, (W) VPWS Enabled, (Z) OpenFlow Enabled
+
+Total number of VLAN(s) : 37
+VRANDEV01_SWA_X770.2 # show tenant_1003
+VLAN Interface with name tenant_1003 created by user
+    Admin State:         Enabled     Tagging:   802.1Q Tag 1003
+    Description:         None
+    Virtual router:      VR-Default
+    IPv4 Forwarding:     Enabled
+    IPv4 MC Forwarding:  Disabled
+    Primary IP:          10.21.130.1/24
+    IPv6 Forwarding:     Disabled
+    IPv6 MC Forwarding:  Disabled
+    IPv6:                None
+    STPD:                None
+    Protocol:            Match all unfiltered protocols
+    Loopback:            Disabled
+    NetLogin:            Disabled
+    OpenFlow:            Disabled
+    TRILL:               Disabled
+    QosProfile:          None configured
+    Egress Rate Limit Designated Port: None configured
+    Flood Rate Limit QosProfile:       None configured
+    Ports:   17.          (Number of active ports=17)
+       Tag:        *1,     *2,     *3,     *4,     *5,     *6,     *7,
+                   *8,     *9,    *10,    *11,    *12,    *13,    *14,
+                  *15,    *16,    *94
+        Flags:    (*) Active, (!) Disabled, (g) Load Sharing port
+                  (b) Port blocked on the vlan, (m) Mac-Based port
+                  (a) Egress traffic allowed for NetLogin
+                  (u) Egress traffic unallowed for NetLogin
+                  (t) Translate VLAN tag for Private-VLAN
+                  (s) Private-VLAN System Port, (L) Loopback port
+                  (x) VMAN Tag Translated port
+                  (G) Multi-switch LAG Group port
+                  (H) Dynamically added by MVRP
+                  (D) TRILL Designated, (A) TRILL Appointed Forwarder
+                  (I) Dynamically added by IDM
+                  (U) Dynamically added uplink port
+                  (V) Dynamically added by VM Tracking
+
+VRANDEV01_SWA_X770.3 # show port 10 information detail
+Port:   10
+        Virtual-router: None
+        Type:           Q+CR4F3m
+        Random Early drop:      Unsupported
+        Admin state:    Enabled with  10G full-duplex
+        Link State:     Active, 10Gbps, full-duplex
+        Link Ups:       1        Last: Sat Dec 16 12:36:29 2017
+        Link Downs:     0        Last: --
+
+        VLAN cfg:
+                 Name: tenant_1002, 802.1Q Tag = 1002, MAC-limit = No-limit, Virtual router:   VR-Default
+                       Port-specific VLAN ID: 1002
+                 Name: tenant_1003, 802.1Q Tag = 1003, MAC-limit = No-limit, Virtual router:   VR-Default
+                       Port-specific VLAN ID: 1003
+                 Name: tenant_1007, 802.1Q Tag = 1007, MAC-limit = No-limit, Virtual router:   VR-Default
+                       Port-specific VLAN ID: 1007
+                 Name: tenant_1006, 802.1Q Tag = 1006, MAC-limit = No-limit, Virtual router:   VR-Default
+                       Port-specific VLAN ID: 1006
+                 Name: tenant_3000, 802.1Q Tag = 3000, MAC-limit = No-limit, Virtual router:   VR-Default
+                       Port-specific VLAN ID: 3000
+                 Name: tenant_1004, 802.1Q Tag = 1004, MAC-limit = No-limit, Virtual router:   VR-Default
+                       Port-specific VLAN ID: 1004
+                 Name: tenant_1005, 802.1Q Tag = 1005, MAC-limit = No-limit, Virtual router:   VR-Default
+                       Port-specific VLAN ID: 1005
+                 Name: tenan_1100, 802.1Q Tag = 1100, MAC-limit = No-limit, Virtual router:   VR-Default
+                       Port-specific VLAN ID: 1100
+                 Name: tenan_1101, 802.1Q Tag = 1101, MAC-limit = No-limit, Virtual router:   VR-Default
+                       Port-specific VLAN ID: 1101
+                 Name: tenan_1102, 802.1Q Tag = 1102, MAC-limit = No-limit, Virtual router:   VR-Default
+                       Port-specific VLAN ID: 1102
+                 Name: tenan_1103, 802.1Q Tag = 1103, MAC-limit = No-limit, Virtual router:   VR-Default
+                       Port-specific VLAN ID: 1103
+                 Name: tenant_234, 802.1Q Tag = 234, MAC-limit = No-limit, Virtual router:   VR-Default
+                       Port-specific VLAN ID:  234
+                 Name: tenant_3001, 802.1Q Tag = 3001, MAC-limit = No-limit, Virtual router:   VR-Default
+                       Port-specific VLAN ID: 3001
+        STP cfg:
+
+        Protocol:
+        Trunking:       Load sharing is not enabled.
+
+VRANDEV01_SWA_X770.4 # show port
+VRANDEV01_SWA_X770.5 # show 28 info
+                            ^
+%% Invalid input detected at '^' marker.
+VRANDEV01_SWA_X770.5 # show port 28 information detail
+Port:   28
+        Virtual-router: None
+        Type:           Q+CR4F3m
+        Random Early drop:      Unsupported
+        Admin state:    Enabled with  10G full-duplex
+        Link State:     Active, 10Gbps, full-duplex
+        Link Ups:       2        Last: Sat Dec 16 12:36:40 2017
+        Link Downs:     1        Last: Sat Dec 16 12:36:33 2017
+
+        VLAN cfg:
+                 Name: swift_san_sp, 802.1Q Tag = 13, MAC-limit = No-limit, Virtual router:   VR-Default
+                       Port-specific VLAN ID:   13
+                 Name: iscsi_san_pda, 802.1Q Tag = 11, MAC-limit = No-limit, Virtual router:   VR-Default
+                       Port-specific VLAN ID:   11
+                 Name: migration_san_sp, 802.1Q Tag = 14, MAC-limit = No-limit, Virtual router:   VR-Default
+                       Port-specific VLAN ID:   14
+        STP cfg:
+
+        Protocol:
+        Trunking:       Load sharing is not enabled.
+
+        EDP:            Enabled
+
+        ELSM:           Disabled
+        Ethernet OAM:           Disabled
+        Learning:       Enabled
+        Unicast Flooding:       Enabled
+        Multicast Flooding:     Enabled
+        Broadcast Flooding:     Enabled
+        Jumbo:  Enabled, MTU= 9216
+        Flow Control:   Rx-Pause: Enabled       Tx-Pause: Disabled
+        Priority Flow Control: Disabled
+        Reflective Relay:       Disabled
+        Link up/down SNMP trap filter setting:  Enabled
+        Egress Port Rate:       No-limit
+        Broadcast Rate:         No-limit
+        Multicast Rate:         No-limit
+        Unknown Dest Mac Rate:  No-limit
+        QoS Profile:    None configured
+        Ingress Rate Shaping :          Unsupported
+        Ingress IPTOS Examination:      Disabled
+VRANDEV01_SWA_X770.6 # show "swift_san_sp"
+VLAN Interface with name swift_san_sp created by user
+    Admin State:         Enabled     Tagging:   802.1Q Tag 13
+    Description:         None
+    Virtual router:      VR-Default
+    IPv4 Forwarding:     Disabled
+    IPv4 MC Forwarding:  Disabled
+    IPv6 Forwarding:     Disabled
+    IPv6 MC Forwarding:  Disabled
+    IPv6:                None
+    STPD:                None
+    Protocol:            Match all unfiltered protocols
+    Loopback:            Disabled
+    NetLogin:            Disabled
+    OpenFlow:            Disabled
+    TRILL:               Disabled
+    QosProfile:          None configured
+    Egress Rate Limit Designated Port: None configured
+    Flood Rate Limit QosProfile:       None configured
+    Ports:   20.          (Number of active ports=16)
+       Tag:       *17,    *18,    *19,    *20,    *21,    *22,    *23,
+                  *24,    *25,    *26,    *27,    *28,!29(BROKEN!!!),!30(BROKEN!!!),
+              !31(BROKEN!!!),    !32,    *45,    *46,    *47,    *48
+        Flags:    (*) Active, (!) Disabled, (g) Load Sharing port
+                  (b) Port blocked on the vlan, (m) Mac-Based port
+                  (a) Egress traffic allowed for NetLogin
+                  (u) Egress traffic unallowed for NetLogin
+                  (t) Translate VLAN tag for Private-VLAN
+                  (s) Private-VLAN System Port, (L) Loopback port
+                  (x) VMAN Tag Translated port
+                  (G) Multi-switch LAG Group port
+                  (H) Dynamically added by MVRP
+                  (D) TRILL Designated, (A) TRILL Appointed Forwarder
+                  (I) Dynamically added by IDM
+                  (U) Dynamically added uplink port
+                  (V) Dynamically added by VM Tracking
+
+VRANDEV01_SWA_X770.7 # configure "swift_san_sp" add ports 61-64 tagged
+* VRANDEV01_SWA_X770.8 # configure "iscsi_san_pda" add ports 61-64 tgg
+                                                                    ^
+%% Invalid input detected at '^' marker.
+* VRANDEV01_SWA_X770.8 # configure "iscsi_san_pda" add ports 61-64 tagged
+* VRANDEV01_SWA_X770.9 # configure "migration_san_sp" add ports 61-64 tagged
+e* VRANDEV01_SWA_X770.10 # enable port port 61-64
+                                      ^
+%% Invalid port number detected at '^' marker.
+* VRANDEV01_SWA_X770.11 # enable port 61-64
+* VRANDEV01_SWA_X770.12 # show port 61-64
+* VRANDEV01_SWA_X770.13 # save
+The configuration file ericsson_active.cfg already exists.
+Do you want to save configuration to ericsson_active.cfg and overwrite it? (y/N) Yes
+Saving configuration on master ............ done!
+Configuration saved to ericsson_active.cfg successfully.
+VRANDEV01_SWA_X770.14 #
+VRANDEV01_SWA_X770.14 # show vlan
+-----------------------------------------------------------------------------------------------
+Name            VID  Protocol Addr       Flags                         Proto  Ports  Virtual
+                                                                              Active router
+                                                                              /Total
+-----------------------------------------------------------------------------------------------
+cee_ctrl_sp     2    192.168.2.2    /25  -------------v--------------- ANY    1 /2   VR-Default
+cee_om_sp       132  ------------------------------------------------- ANY    4 /4   VR-Default
+Default         1    ------------------------------------------------- ANY    0 /0   VR-Default
+inter_switch    4000 30.30.30.2     /30  -f--------------------------- ANY    1 /1   VR-Default
+iscsi_san_pda   11   192.168.11.1   /24  -f--------------------------- ANY    20/24  VR-Default
+Mgmt            4095 ------------------------------------------------- ANY    0 /1   VR-Mgmt
+migration_san_sp 14   192.168.14.1   /24  ----------------------------- ANY    20/24  VR-Default
+pod_sw_ctrl_isc 4    192.168.4.1    /30  -f--------------------------- ANY    0 /0   VR-Default
+subrack_ctrl_sp 3    ------------------------------------------------- ANY    4 /4   subrack_om
+subrack_om_sp   23   ------------------------------------------------- ANY    1 /1   subrack_om
+sw_ctrl_vip     6    192.168.6.1    /32  --L-------------------------- ANY    0 /0   VR-Default
+swift_san_sp    13   ------------------------------------------------- ANY    20/24  VR-Default
+tenan_1100      1100 172.16.16.1    /24  -f--------------------------- ANY    16/16  VR-Default
+tenan_1101      1101 10.0.0.1       /24  -f--------------------------- ANY    16/16  VR-Default
+tenan_1102      1102 172.16.18.1    /24  -f--------------------------- ANY    16/16  VR-Default
+tenan_1103      1103 192.168.68.1   /24  -f--------------------------- ANY    16/16  VR-Default
+tenant_1002     1002 10.21.120.1    /24  -f--------------------------- ANY    16/16  VR-Default
+tenant_1003     1003 10.21.130.1    /24  -f--------------------------- ANY    17/17  VR-Default
+tenant_1004     1004 10.21.140.1    /24  -f--------------------------- ANY    16/16  VR-Default
+tenant_1005     1005 10.21.150.1    /24  -f--------------------------- ANY    16/16  VR-Default
+tenant_1006     1006 10.68.32.49    /28  -f--------------------------- ANY    16/16  VR-Default
+tenant_1007     1007 10.21.170.1    /24  -f--------------------------- ANY    16/16  VR-Default
+tenant_2090     2090 10.68.32.65    /30  -f--------------------------- ANY    4 /4   VR-Default
+tenant_2091     2091 ------------------------------------------------- ANY    3 /3   VR-Default
+tenant_2092     2092 ------------------------------------------------- ANY    3 /3   VR-Default
+tenant_2093     2093 ------------------------------------------------- ANY    3 /3   VR-Default
+tenant_2094     2094 ------------------------------------------------- ANY    3 /3   VR-Default
+tenant_2095     2095 10.68.32.69    /30  -f--------------------------- ANY    4 /4   VR-Default
+tenant_2096     2096 ------------------------------------------------- ANY    3 /3   VR-Default
+tenant_2097     2097 ------------------------------------------------- ANY    3 /3   VR-Default
+tenant_2098     2098 ------------------------------------------------- ANY    3 /3   VR-Default
+tenant_234      234  10.21.210.1    /24  ----------------------------- ANY    16/16  VR-Default
+tenant_3000     3000 10.68.32.129   /25  -f--------------------------- ANY    17/17  VR-Default
+tenant_3001     3001 10.68.32.17    /28  -f--------------------------- ANY    17/17  VR-Default
+tenant_3584     3584 10.68.32.33    /29  -f--------------------------- ANY    4 /4   VR-Default
+tenant_3585     3585 10.68.32.41    /29  -f--------------------------- ANY    4 /4   VR-Default
+tenant_mlag_isc 20   10.0.20.1      /30  ----------------------------- ANY    0 /0   VR-Default
+-----------------------------------------------------------------------------------------------
+Flags : (B) BFD Enabled, (c) 802.1ad customer VLAN, (C) EAPS Control VLAN,
+        (d) Dynamically created VLAN, (D) VLAN Admin Disabled,
+        (e) CES Configured, (E) ESRP Enabled, (f) IP Forwarding Enabled,
+        (F) Learning Disabled, (h) TRILL Enabled, (i) ISIS Enabled,
+        (I) Inter-Switch Connection VLAN for MLAG, (k) PTP Configured,
+        (l) MPLS Enabled, (L) Loopback Enabled, (m) IPmc Forwarding Enabled,
+        (M) Translation Member VLAN or Subscriber VLAN, (n) IP Multinetting Enabled,
+        (N) Network Login VLAN, (o) OSPF Enabled, (O) Flooding Disabled,
+        (p) PIM Enabled, (P) EAPS protected VLAN, (r) RIP Enabled,
+        (R) Sub-VLAN IP Range Configured, (s) Sub-VLAN, (S) Super-VLAN,
+        (t) Translation VLAN or Network VLAN, (T) Member of STP Domain,
+        (v) VRRP Enabled, (V) VPLS Enabled, (W) VPWS Enabled, (Z) OpenFlow Enabled
+
+Total number of VLAN(s) : 37
+VRANDEV01_SWA_X770.15 #
+VRANDEV01_SWA_X770.15 # configure tenan_1100   add port 53-56 tagged
+configure tenant_1004  add port 53-56 tagged
+configure tenant_1005  add port 53-56 tagged
+configure tenant_1006  add port 53-56 tagged
+configure tenant_1007  add port 53-56 tagged
+configure tenant_2090  add port 53-56 tagged
+configure tenant_2091  add port 53-56 tagged
+configure tenant_2092  add port 53-56 tagged
+configure tenant_2093  add port 53-56 tagged
+configure tenant_2094  add port 53-56 tagged
+configure tenant_2095  add port 53-56 tagged
+configure tenant_2096  add port 53-56 tagged
+configure tenant_2097  add port 53-56 tagged
+configure tenant_2098  add port 53-56 tagged
+configure tenant_234   add port 53-56 tagged
+configure tenant_3000  add port 53-56 tagged
+configure tenant_3001  add port 53-56 tagged
+configure tenant_3584  add port 53-56 tagged
+configure tenant_3585  add port 53-56 tagged
+* VRANDEV01_SWA_X770.16 # configure tenan_1101   add port 53-56 tagged
+* VRANDEV01_SWA_X770.17 # configure tenan_1102   add port 53-56 tagged
+* VRANDEV01_SWA_X770.18 # configure tenan_1103   add port 53-56 tagged
+* VRANDEV01_SWA_X770.19 # configure tenant_1002  add port 53-56 tagged
+* VRANDEV01_SWA_X770.20 # configure tenant_1003  add port 53-56 tagged
+* VRANDEV01_SWA_X770.21 # configure tenant_1004  add port 53-56 tagged
+* VRANDEV01_SWA_X770.22 # configure tenant_1005  add port 53-56 tagged
+* VRANDEV01_SWA_X770.23 # configure tenant_1006  add port 53-56 tagged
+* VRANDEV01_SWA_X770.24 # configure tenant_1007  add port 53-56 tagged
+* VRANDEV01_SWA_X770.25 # configure tenant_2090  add port 53-56 tagged
+* VRANDEV01_SWA_X770.26 # configure tenant_2091  add port 53-56 tagged
+* VRANDEV01_SWA_X770.27 # configure tenant_2092  add port 53-56 tagged
+* VRANDEV01_SWA_X770.28 # configure tenant_2093  add port 53-56 tagged
+* VRANDEV01_SWA_X770.29 # configure tenant_2094  add port 53-56 tagged
+* VRANDEV01_SWA_X770.30 # configure tenant_2095  add port 53-56 tagged
+* VRANDEV01_SWA_X770.31 # configure tenant_2096  add port 53-56 tagged
+* VRANDEV01_SWA_X770.32 # configure tenant_2097  add port 53-56 tagged
+* VRANDEV01_SWA_X770.33 # configure tenant_2098  add port 53-56 tagged
+* VRANDEV01_SWA_X770.34 # configure tenant_234   add port 53-56 tagged
+* VRANDEV01_SWA_X770.35 # configure tenant_3000  add port 53-56 tagged
+* VRANDEV01_SWA_X770.36 # configure tenant_3001  add port 53-56 tagged
+* VRANDEV01_SWA_X770.37 # configure tenant_3584  add port 53-56 tagged
+* VRANDEV01_SWA_X770.38 # configure tenant_3585  add port 53-56 tagged
+* VRANDEV01_SWA_X770.39 # ~
+                          ^
+%% Invalid input detected at '^' marker.
+* VRANDEV01_SWA_X770.40 # save
+The configuration file ericsson_active.cfg already exists.
+Do you want to save configuration to ericsson_active.cfg and overwrite it? (y/N) Yes
+Saving configuration on master .............. done!
+Configuration saved to ericsson_active.cfg successfully.
+VRANDEV01_SWA_X770.41 # exit
+
+Connection to 192.168.2.2 closed.
+[root@fuel ~]#
+[root@fuel ~]#
+[root@fuel ~]# pwd
+/root
+[root@fuel ~]# ls
+anaconda.cmdline.vars       anaconda-post-before-chroot.log        anaconda-post-configure-sysconfig.log    anaconda-post-partition.log  original-ks.cfg
+anaconda-ks.cfg             anaconda-post-configure-autologon.log  anaconda-post-install-extrapackages.log  ericsson_backup.cfg          switch_r6
+anaconda-parse-cmdline.log  anaconda-post-configure-repos.log      anaconda-post-interface-settings.log     good_nova.conf               x770_r6_backup.xsf
+[root@fuel ~]# cd /mnt/cee_config/
+[root@fuel cee_config]# ls
+2_x670v_dell.yaml    4_x770_switch.yaml                      config.yaml                      host_nw_hds-with-sdn.yaml
+2_x670v_hp.yaml      atlas.pem                               config.yaml.backup               host_nw_hp.yaml
+2_x670v_switch.yaml  atlas.vran5g.rnd.ki.sw.ericsson.se.pem  ctrl.pem                         neutron_ericsson_cmx.yaml
+4_x670v_dell.yaml    cacert.pem                              host_nw_bsp.yaml                 neutron_ericsson_extreme.yaml
+4_x670v_hp.yaml      cax_bsp.yaml                            host_nw_dell-single-server.yaml  neutron_ericsson_sdn_tight.yaml
+4_x670v_switch.yaml  cic01.vran5g.rnd.ki.sw.ericsson.se.pem  host_nw_dell.yaml                neutron_ericsson_user_spec.yaml
+4_x770_hp.yaml       cmx_switch.yaml                         host_nw_hds-without-sdn.yaml
+[root@fuel cee_config]# cp config.yaml config.yaml.backup_20180115
+[root@fuel cee_config]# vi config.yaml
+[root@fuel cee_config]# fuel node
+id  | status | name         | cluster | ip           | mac               | roles             | pending_roles | online | group_id
+----+--------+--------------+---------+--------------+-------------------+-------------------+---------------+--------+---------
+  7 | ready  | cic-2        |       1 | 192.168.0.27 | 42:40:8b:80:2a:48 | controller, mongo |               |      1 |        1
+104 | ready  | compute-0-15 |       1 | 192.168.0.34 | 24:6e:96:55:25:7c | compute           |               |      1 |        1
+102 | ready  | compute-0-14 |       1 | 192.168.0.37 | 24:6e:96:14:a4:5c | compute           |               |      1 |        1
+100 | ready  | compute-0-11 |       1 | 192.168.0.39 | 24:6e:96:55:25:74 | compute           |               |      1 |        1
+ 99 | ready  | compute-0-10 |       1 | 192.168.0.33 | 24:6e:96:14:a3:24 | compute           |               |      1 |        1
+108 | ready  | compute-0-8  |       1 | 192.168.0.31 | 24:6e:96:14:a4:0c | compute           |               |      1 |        1
+101 | ready  | compute-0-12 |       1 | 192.168.0.40 | 24:6e:96:55:27:cc | compute           |               |      1 |        1
+105 | ready  | compute-0-5  |       1 | 192.168.0.25 | 24:6e:96:14:5b:dc | compute           |               |      1 |        1
+  2 | ready  | compute-0-3  |       1 | 192.168.0.22 | 24:6e:96:31:e1:0c | compute, virt     |               |      1 |        1
+ 98 | ready  | compute-0-9  |       1 | 192.168.0.32 | 24:6e:96:14:a8:ac | compute           |               |      1 |        1
+107 | ready  | compute-0-7  |       1 | 192.168.0.30 | 24:6e:96:14:a3:f4 | compute           |               |      1 |        1
+106 | ready  | compute-0-6  |       1 | 192.168.0.26 | 24:6e:96:14:5b:1c | compute           |               |      1 |        1
+  5 | ready  | cic-3        |       1 | 192.168.0.29 | ae:ec:96:c6:4c:43 | controller, mongo |               |      1 |        1
+  3 | ready  | cinder-0-20  |       1 | 192.168.0.23 | 24:6e:96:31:df:3c | cinder            |               |      1 |        1
+  1 | ready  | compute-0-1  |       1 | 192.168.0.20 | 24:6e:96:31:e1:54 | compute, virt     |               |      1 |        1
+  8 | ready  | compute-0-4  |       1 | 192.168.0.24 | 24:6e:96:5b:8d:5c | compute           |               |      1 |        1
+  4 | ready  | compute-0-2  |       1 | 192.168.0.21 | 24:6e:96:31:d5:24 | compute, virt     |               |      1 |        1
+103 | ready  | compute-0-13 |       1 | 192.168.0.36 | 24:6e:96:14:5c:7c | compute           |               |      1 |        1
+  6 | ready  | cic-1        |       1 | 192.168.0.28 | be:97:88:50:ec:43 | controller, mongo |               |      1 |        1
+[root@fuel cee_config]# ssh admin@10.0.3.36
+Warning: Permanently added '10.0.3.36' (ECDSA) to the list of known hosts.
+admin@10.0.3.36's password:
+/admin1-> racadm
+racadm>>serveraction powercycle
+
+racadm serveraction powercycle
+Server power operation successful
+
+racadm>>exit
+
+/admin1-> exit
+CLP Session terminated
+Connection to 10.0.3.36 closed.
+[root@fuel cee_config]# pwd
+/mnt/cee_config
+[root@fuel cee_config]# ls
+2_x670v_dell.yaml    4_x770_switch.yaml                      config.yaml                      host_nw_hds-without-sdn.yaml
+2_x670v_hp.yaml      atlas.pem                               config.yaml.backup               host_nw_hds-with-sdn.yaml
+2_x670v_switch.yaml  atlas.vran5g.rnd.ki.sw.ericsson.se.pem  config.yaml.backup_20180115      host_nw_hp.yaml
+4_x670v_dell.yaml    cacert.pem                              ctrl.pem                         neutron_ericsson_cmx.yaml
+4_x670v_hp.yaml      cax_bsp.yaml                            host_nw_bsp.yaml                 neutron_ericsson_extreme.yaml
+4_x670v_switch.yaml  cic01.vran5g.rnd.ki.sw.ericsson.se.pem  host_nw_dell-single-server.yaml  neutron_ericsson_sdn_tight.yaml
+4_x770_hp.yaml       cmx_switch.yaml                         host_nw_dell.yaml                neutron_ericsson_user_spec.yaml
+[root@fuel cee_config]# ifconfig
+eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 192.168.0.11  netmask 255.255.255.0  broadcast 192.168.0.255
+        ether 52:54:00:c0:0f:d8  txqueuelen 1000  (Ethernet)
+        RX packets 33452891  bytes 12969208760 (12.0 GiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 19883940  bytes 7078965193 (6.5 GiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+eth0.2: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 192.168.2.11  netmask 255.255.255.0  broadcast 192.168.2.255
+        ether 52:54:00:c0:0f:d8  txqueuelen 1000  (Ethernet)
+        RX packets 9366701  bytes 351309092 (335.0 MiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 5635  bytes 450240 (439.6 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+eth0.3: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 10.0.3.11  netmask 255.255.255.128  broadcast 10.0.3.127
+        ether 52:54:00:c0:0f:d8  txqueuelen 1000  (Ethernet)
+        RX packets 78650  bytes 3684054 (3.5 MiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 3002  bytes 134535 (131.3 KiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        loop  txqueuelen 1  (Local Loopback)
+        RX packets 31980358  bytes 91524809659 (85.2 GiB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 31980358  bytes 91524809659 (85.2 GiB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+[root@fuel cee_config]# tcpdump -i eth0 port 67 or port 68 -ne
+tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
+listening on eth0, link-type EN10MB (Ethernet), capture size 65535 bytes
+^C
+0 packets captured
+0 packets received by filter
+0 packets dropped by kernel
+[root@fuel cee_config]# fuel node
+id  | status | name         | cluster | ip           | mac               | roles             | pending_roles | online | group_id
+----+--------+--------------+---------+--------------+-------------------+-------------------+---------------+--------+---------
+  7 | ready  | cic-2        |       1 | 192.168.0.27 | 42:40:8b:80:2a:48 | controller, mongo |               |      1 |        1
+104 | ready  | compute-0-15 |       1 | 192.168.0.34 | 24:6e:96:55:25:7c | compute           |               |      1 |        1
+100 | ready  | compute-0-11 |       1 | 192.168.0.39 | 24:6e:96:55:25:74 | compute           |               |      1 |        1
+ 99 | ready  | compute-0-10 |       1 | 192.168.0.33 | 24:6e:96:14:a3:24 | compute           |               |      1 |        1
+102 | ready  | compute-0-14 |       1 | 192.168.0.37 | 24:6e:96:14:a4:5c | compute           |               |      1 |        1
+101 | ready  | compute-0-12 |       1 | 192.168.0.40 | 24:6e:96:55:27:cc | compute           |               |      1 |        1
+108 | ready  | compute-0-8  |       1 | 192.168.0.31 | 24:6e:96:14:a4:0c | compute           |               |      1 |        1
+  2 | ready  | compute-0-3  |       1 | 192.168.0.22 | 24:6e:96:31:e1:0c | compute, virt     |               |      1 |        1
+105 | ready  | compute-0-5  |       1 | 192.168.0.25 | 24:6e:96:14:5b:dc | compute           |               |      1 |        1
+ 98 | ready  | compute-0-9  |       1 | 192.168.0.32 | 24:6e:96:14:a8:ac | compute           |               |      1 |        1
+107 | ready  | compute-0-7  |       1 | 192.168.0.30 | 24:6e:96:14:a3:f4 | compute           |               |      1 |        1
+106 | ready  | compute-0-6  |       1 | 192.168.0.26 | 24:6e:96:14:5b:1c | compute           |               |      1 |        1
+  5 | ready  | cic-3        |       1 | 192.168.0.29 | ae:ec:96:c6:4c:43 | controller, mongo |               |      1 |        1
+  8 | ready  | compute-0-4  |       1 | 192.168.0.24 | 24:6e:96:5b:8d:5c | compute           |               |      1 |        1
+  3 | ready  | cinder-0-20  |       1 | 192.168.0.23 | 24:6e:96:31:df:3c | cinder            |               |      1 |        1
+  1 | ready  | compute-0-1  |       1 | 192.168.0.20 | 24:6e:96:31:e1:54 | compute, virt     |               |      1 |        1
+  4 | ready  | compute-0-2  |       1 | 192.168.0.21 | 24:6e:96:31:d5:24 | compute, virt     |               |      1 |        1
+  6 | ready  | cic-1        |       1 | 192.168.0.28 | be:97:88:50:ec:43 | controller, mongo |               |      1 |        1
+103 | ready  | compute-0-13 |       1 | 192.168.0.36 | 24:6e:96:14:5c:7c | compute           |               |      1 |        1
+[root@fuel cee_config]#
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+Session stopped
+    - Press <return> to exit tab
+    - Press R to restart session
+    - Press S to save terminal output to file
+
+Network error: Software caused connection abort
+     ┌────────────────────────────────────────────────────────────────────┐
+     │                        • MobaXterm 10.2 •                          │
+     │            (SSH client, X-server and networking tools)             │
+     │                                                                    │
+     │ ➤ SSH session to quantum@10.68.83.237                              │
+     │   • SSH compression : ✔                                            │
+     │   • SSH-browser     : ✔                                            │
+     │   • X11-forwarding  : ✔  (remote display is forwarded through SSH) │
+     │   • DISPLAY         : ✔  (automatically set on remote server)      │
+     │                                                                    │
+     │ ➤ For more info, ctrl+click on help or visit our website           │
+     └────────────────────────────────────────────────────────────────────┘
+
+Welcome to Ubuntu 16.04.2 LTS (GNU/Linux 4.10.0-42-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+258 packages can be updated.
+4 updates are security updates.
+
+Last login: Mon Jan 15 11:44:53 2018 from 147.214.46.195
+quantum@r6ks:~$ ssh fuel
+
+
+Attention! Unauthorized remote access is strictly prohibited!
+
+
+Last login: Mon Jan 15 12:45:22 2018 from 192.168.0.19
+[root@fuel ~]#
+[root@fuel ~]# fuel node
+id  | status | name         | cluster | ip           | mac               | roles             | pending_roles | online | group_id
+----+--------+--------------+---------+--------------+-------------------+-------------------+---------------+--------+---------
+  1 | ready  | compute-0-1  |       1 | 192.168.0.20 | 24:6e:96:31:e1:54 | compute, virt     |               |      1 |        1
+  7 | ready  | cic-2        |       1 | 192.168.0.27 | 42:40:8b:80:2a:48 | controller, mongo |               |      1 |        1
+104 | ready  | compute-0-15 |       1 | 192.168.0.34 | 24:6e:96:55:25:7c | compute           |               |      1 |        1
+100 | ready  | compute-0-11 |       1 | 192.168.0.39 | 24:6e:96:55:25:74 | compute           |               |      1 |        1
+102 | ready  | compute-0-14 |       1 | 192.168.0.37 | 24:6e:96:14:a4:5c | compute           |               |      1 |        1
+ 99 | ready  | compute-0-10 |       1 | 192.168.0.33 | 24:6e:96:14:a3:24 | compute           |               |      1 |        1
+101 | ready  | compute-0-12 |       1 | 192.168.0.40 | 24:6e:96:55:27:cc | compute           |               |      1 |        1
+108 | ready  | compute-0-8  |       1 | 192.168.0.31 | 24:6e:96:14:a4:0c | compute           |               |      1 |        1
+105 | ready  | compute-0-5  |       1 | 192.168.0.25 | 24:6e:96:14:5b:dc | compute           |               |      1 |        1
+  2 | ready  | compute-0-3  |       1 | 192.168.0.22 | 24:6e:96:31:e1:0c | compute, virt     |               |      1 |        1
+ 98 | ready  | compute-0-9  |       1 | 192.168.0.32 | 24:6e:96:14:a8:ac | compute           |               |      1 |        1
+106 | ready  | compute-0-6  |       1 | 192.168.0.26 | 24:6e:96:14:5b:1c | compute           |               |      1 |        1
+107 | ready  | compute-0-7  |       1 | 192.168.0.30 | 24:6e:96:14:a3:f4 | compute           |               |      1 |        1
+  5 | ready  | cic-3        |       1 | 192.168.0.29 | ae:ec:96:c6:4c:43 | controller, mongo |               |      1 |        1
+  3 | ready  | cinder-0-20  |       1 | 192.168.0.23 | 24:6e:96:31:df:3c | cinder            |               |      1 |        1
+  8 | ready  | compute-0-4  |       1 | 192.168.0.24 | 24:6e:96:5b:8d:5c | compute           |               |      1 |        1
+  4 | ready  | compute-0-2  |       1 | 192.168.0.21 | 24:6e:96:31:d5:24 | compute, virt     |               |      1 |        1
+  6 | ready  | cic-1        |       1 | 192.168.0.28 | be:97:88:50:ec:43 | controller, mongo |               |      1 |        1
+103 | ready  | compute-0-13 |       1 | 192.168.0.36 | 24:6e:96:14:5c:7c | compute           |               |      1 |        1
+[root@fuel ~]# ssh control
+Warning: Permanently added '192.168.2.8' (DSA) to the list of known hosts.
+Keyboard-interactive authentication
+Enter password for admin:
+ExtremeXOS
+Copyright (C) 1996-2015 Extreme Networks. All rights reserved.
+This product is protected by one or more US patents listed at http://www.extremenetworks.com/patents along with their foreign counterparts.
+==============================================================================
+
+Press the <tab> or '?' key at any time for completions.
+Remember to save your configuration changes.
+
+
+VRANDEV_SWA_X460.1 # show port port stat
+                                ^
+%% Invalid input detected at '^' marker.
+VRANDEV_SWA_X460.1 # show port port sta
+                                ^
+%% Invalid input detected at '^' marker.
+VRANDEV_SWA_X460.1 # show port sta
+  stack-ports     Stacking Ports
+  statistics      Port statistics
+VRANDEV_SWA_X460.1 # show port statistics
+VRANDEV_SWA_X460.2 # show port 36 statistics
+VRANDEV_SWA_X460.3 # show fdb | in 36
+50:9a:4c:b1:ba:5e subrack_ctrl_sp(0003) 0000  dhmi           36
+VRANDEV_SWA_X460.4 # show fdb
+Mac                     Vlan       Age  Flags           Port / Virtual Port List
+--------------------------------------------------------------------------------
+00:00:5e:00:01:fc cee_ctrl_sp(0002) 0000  dhm            51
+00:02:e7:03:26:ea uplink_to_ECN(1207) 0000  dhmi           49
+00:04:96:35:5b:03 uplink_to_ECN(1207) 0000  dhmi           49
+00:04:96:9a:25:00 uplink_to_ECN(1207) 0000  dhmi           49
+00:04:96:9b:69:41 cee_ctrl_sp(0002) 0000  dhm            51
+00:04:96:9b:69:41 inter_switch_link(4000) 0000  dhmi           51
+00:04:96:9b:69:41 tenant_1003(1003) 0000  dhm            51
+00:07:4d:6e:3c:07 uplink_to_ECN(1207) 0000  dhmi           49
+00:1a:c5:01:0f:9e uplink_to_ECN(1207) 0000  dhmi           49
+00:1e:67:39:26:30 uplink_to_ECN(1207) 0000  dhmi           49
+00:1e:67:39:26:32 uplink_to_ECN(1207) 0000  dhmi           49
+00:24:9b:13:5e:67 fuel_ctrl_sp(0028) 0000  dhmi           33
+00:24:9b:13:5e:67 subrack_ctrl_sp(0003) 0000  dhmi           33
+00:24:9b:13:5e:67  cee_om_sp(0132) 0000  dhmi           33
+00:25:90:74:72:22 uplink_to_ECN(1207) 0000  dhmi           49
+00:25:90:74:74:46 uplink_to_ECN(1207) 0000  dhmi           49
+00:30:48:8c:24:04 uplink_to_ECN(1207) 0000  dhmi           49
+00:30:48:d7:4a:c6 uplink_to_ECN(1207) 0000  dhmi           49
+00:30:64:41:81:b0 uplink_to_ECN(1207) 0000  dhmi           49
+00:40:9d:3d:33:57 uplink_to_ECN(1207) 0000  dhm            49
+00:50:c2:8b:7c:eb uplink_to_ECN(1207) 0000  dhmi           49
+00:80:f9:58:09:31 uplink_to_ECN(1207) 0000  dhmi           49
+00:80:f9:58:09:33 uplink_to_ECN(1207) 0000  dhmi           49
+0c:c4:7a:35:1b:fa uplink_to_ECN(1207) 0000  dhmi           49
+0c:c4:7a:6e:40:08 uplink_to_ECN(1207) 0000  dhmi           49
+0c:c4:7a:76:2f:2c fuel_ctrl_sp(0028) 0000  dhm            35
+0c:c4:7a:76:2f:2d tenant_1003(1003) 0000  dhm            34
+0c:c4:7a:7b:2a:e8 uplink_to_ECN(1207) 0000  dhmi           49
+0c:c4:7a:94:c8:9f uplink_to_ECN(1207) 0000  dhmi           49
+0c:c4:7a:94:c9:6a uplink_to_ECN(1207) 0000  dhmi           49
+0c:c4:7a:94:ce:80 uplink_to_ECN(1207) 0000  dhmi           49
+0c:c4:7a:94:d1:96 uplink_to_ECN(1207) 0000  dhmi           49
+0c:c4:7a:94:d1:bc uplink_to_ECN(1207) 0000  dhmi           49
+0c:c4:7a:9c:f5:fe uplink_to_ECN(1207) 0000  dhmi           49
+0c:c4:7a:9c:f9:ae uplink_to_ECN(1207) 0000  dhmi           49
+0c:c4:7a:c0:e7:4c uplink_to_ECN(1207) 0000  dhmi           49
+0c:c4:7a:f4:ee:e2 uplink_to_ECN(1207) 0000  dhmi           49
+0c:c4:7a:f4:ee:f2 uplink_to_ECN(1207) 0000  dhmi           49
+10:0d:7f:6f:84:b7 uplink_to_ECN(1207) 0000  dhmi           49
+10:0d:7f:6f:84:b9 uplink_to_ECN(1207) 0000  dhm            49
+16:95:43:b9:cb:4f cee_ctrl_sp(0002) 0000  dhm            17
+16:9b:2f:04:b5:40 cee_ctrl_sp(0002) 0000  dhm            21
+24:6e:96:0e:13:3f uplink_to_ECN(1207) 0000  dhmi           49
+24:6e:96:0e:13:63 uplink_to_ECN(1207) 0000  dhmi           49
+24:6e:96:0e:29:f4 uplink_to_ECN(1207) 0000  dhmi           49
+24:6e:96:0e:2a:1f uplink_to_ECN(1207) 0000  dhmi           49
+24:6e:96:14:5b:1c fuel_ctrl_sp(0028) 0000  dhmi           23
+24:6e:96:14:5b:dc fuel_ctrl_sp(0028) 0000  dhmi           22
+24:6e:96:14:5c:7c fuel_ctrl_sp(0028) 0000  dhmi           30
+24:6e:96:14:a3:24 fuel_ctrl_sp(0028) 0000  dhmi           27
+24:6e:96:14:a3:f4 fuel_ctrl_sp(0028) 0000  dhmi           24
+24:6e:96:14:a4:0c fuel_ctrl_sp(0028) 0000  dhmi           25
+24:6e:96:14:a4:5c fuel_ctrl_sp(0028) 0000  dhmi           31
+24:6e:96:14:a8:ac fuel_ctrl_sp(0028) 0000  dhmi           26
+24:6e:96:27:03:dc uplink_to_ECN(1207) 0000  dhmi           49
+24:6e:96:27:6b:68 uplink_to_ECN(1207) 0000  dhmi           49
+24:6e:96:31:d5:24 fuel_ctrl_sp(0028) 0000  dhmi           18
+24:6e:96:31:df:3c fuel_ctrl_sp(0028) 0000  dhmi           20
+24:6e:96:31:e1:0c fuel_ctrl_sp(0028) 0000  dhmi           19
+24:6e:96:31:e1:54 fuel_ctrl_sp(0028) 0000  dhmi           17
+24:6e:96:55:25:74 fuel_ctrl_sp(0028) 0000  dhmi           28
+24:6e:96:55:25:7c fuel_ctrl_sp(0028) 0000  dhmi           32
+24:6e:96:55:27:cc fuel_ctrl_sp(0028) 0000  dhmi           29
+24:6e:96:5b:8d:5c fuel_ctrl_sp(0028) 0000  dhmi           21
+26:d2:21:f7:ae:c0 uplink_to_ECN(1207) 0000  dhmi           49
+2a:53:db:58:a8:44 cee_ctrl_sp(0002) 0000  dhm            19
+30:7c:5e:10:ec:01 uplink_to_ECN(1207) 0000  dhmi           49
+34:6e:9d:b3:89:80 uplink_to_ECN(1207) 0000  dhmi           49
+38:4f:49:4c:e6:80 uplink_to_ECN(1207) 0000  dhmi           49
+38:63:bb:b6:85:1a uplink_to_ECN(1207) 0000  dhmi           49
+3e:e3:88:9f:72:46 cee_ctrl_sp(0002) 0000  dhm            25
+40:71:83:01:ee:33 uplink_to_ECN(1207) 0000  dhmi           49
+40:71:83:52:38:c1 uplink_to_ECN(1207) 0000  dhmi           49
+42:40:8b:80:2a:48 fuel_ctrl_sp(0028) 0000  dhmi           18
+4a:22:ec:ca:20:4c cee_ctrl_sp(0002) 0000  dhm            28
+4e:26:56:5c:6a:0e cee_ctrl_sp(0002) 0000  dhm            17
+50:9a:4c:b1:af:b0 subrack_ctrl_sp(0003) 0000  dhmi           40
+50:9a:4c:b1:af:c2 subrack_ctrl_sp(0003) 0000  dhmi           38
+50:9a:4c:b1:b9:6a subrack_ctrl_sp(0003) 0000  dhmi           42
+50:9a:4c:b1:ba:5e subrack_ctrl_sp(0003) 0000  dhmi           36
+52:54:00:2b:1b:1c fuel_ctrl_sp(0028) 0000  dhm            35
+52:54:00:c0:0f:d8 fuel_ctrl_sp(0028) 0000  dhmi           17
+52:54:00:c0:0f:d8 subrack_ctrl_sp(0003) 0000  dhmi           17
+52:54:00:c0:0f:d8 cee_ctrl_sp(0002) 0000  dhm            17
+58:00:bb:9d:8e:c1 uplink_to_ECN(1207) 0000  dhmi           49
+58:00:bb:9e:0f:01 uplink_to_ECN(1207) 0000  dhmi           49
+5c:45:27:3b:93:c1 uplink_to_ECN(1207) 0000  dhmi           49
+5e:7a:0b:1f:82:49  cee_om_sp(0132) 0000  dhmi           51
+68:b5:99:c7:33:5c uplink_to_ECN(1207) 0000  dhmi           49
+6e:da:e2:2f:69:47 cee_ctrl_sp(0002) 0000  dhm            22
+72:34:2e:c9:eb:44 cee_ctrl_sp(0002) 0000  dhm            18
+74:c9:9a:00:2c:e5 uplink_to_ECN(1207) 0000  dhmi           49
+74:c9:9a:00:2c:e6 uplink_to_ECN(1207) 0000  dhmi           49
+7a:10:4a:5e:16:b5 cee_ctrl_sp(0002) 0000  dhm            18
+7a:12:26:e0:f3:42  cee_om_sp(0132) 0000  dhmi           51
+82:38:ae:61:60:da  cee_om_sp(0132) 0000  dhmi           51
+82:ea:1c:4e:6f:41 cee_ctrl_sp(0002) 0000  dhm            30
+84:7b:eb:d7:2c:a8 subrack_ctrl_sp(0003) 0000  dhmi           1
+84:7b:eb:d7:60:e0 subrack_ctrl_sp(0003) 0000  dhmi           3
+84:7b:eb:d7:61:3c subrack_ctrl_sp(0003) 0000  dhmi           4
+86:46:01:69:16:47 cee_ctrl_sp(0002) 0000  dhm            18
+88:88:88:88:87:88 uplink_to_ECN(1207) 0000  dhmi           49
+90:38:09:10:9d:3b      bb_up(0020) 0000  dhmi           50
+96:38:f8:dd:bd:4e cee_ctrl_sp(0002) 0000  dhm            32
+98:c5:db:3f:91:00 uplink_to_ECN(1207) 0000  dhmi           49
+98:c5:db:3f:94:00 uplink_to_ECN(1207) 0000  dhmi           49
+98:c5:db:3f:a0:00 uplink_to_ECN(1207) 0000  dhmi           49
+9a:ea:ec:2a:bd:45 cee_ctrl_sp(0002) 0000  dhm            23
+9c:8e:99:2e:28:62 uplink_to_ECN(1207) 0000  dhmi           49
+9c:cc:83:f0:96:a2 uplink_to_ECN(1207) 0000  dhmi           49
+9e:4a:0d:ae:c4:40 cee_ctrl_sp(0002) 0000  dhm            24
+ac:1f:6b:01:54:b0 uplink_to_ECN(1207) 0000  dhmi           49
+ac:1f:6b:03:73:2b uplink_to_ECN(1207) 0000  dhmi           49
+ac:1f:6b:04:26:b6 uplink_to_ECN(1207) 0000  dhmi           49
+ac:1f:6b:05:4b:d8 uplink_to_ECN(1207) 0000  dhmi           49
+ac:1f:6b:0a:5f:9c uplink_to_ECN(1207) 0000  dhmi           49
+ac:1f:6b:0a:5f:bc uplink_to_ECN(1207) 0000  dhmi           49
+ac:1f:6b:17:33:28 uplink_to_ECN(1207) 0000  dhmi           49
+ac:1f:6b:17:35:18 uplink_to_ECN(1207) 0000  dhmi           49
+ac:1f:6b:17:35:94 uplink_to_ECN(1207) 0000  dhmi           49
+ac:1f:6b:17:35:a8 uplink_to_ECN(1207) 0000  dhmi           49
+ac:60:b6:aa:af:ee uplink_to_ECN(1207) 0000  dhmi           49
+ac:60:b6:aa:b1:2e uplink_to_ECN(1207) 0000  dhmi           49
+ac:60:b6:aa:b1:6e uplink_to_ECN(1207) 0000  dhmi           49
+ac:60:b6:ab:08:6e uplink_to_ECN(1207) 0000  dhmi           49
+ae:ec:96:c6:4c:43 fuel_ctrl_sp(0028) 0000  dhmi           19
+b4:99:ba:c0:6d:be uplink_to_ECN(1207) 0000  dhmi           49
+b8:ae:ed:73:f8:43 uplink_to_ECN(1207) 0000  dhmi           49
+bc:30:5b:d9:07:1f uplink_to_ECN(1207) 0000  dhmi           49
+be:97:88:50:ec:43 fuel_ctrl_sp(0028) 0000  dhmi           17
+c0:3f:d5:62:20:65 uplink_to_ECN(1207) 0000  dhmi           49
+c0:3f:d5:62:22:91 uplink_to_ECN(1207) 0000  dhmi           49
+c6:d1:48:3d:c7:81 cee_ctrl_sp(0002) 0000  dhm            17
+ce:5b:7d:84:3e:40 cee_ctrl_sp(0002) 0000  dhm            19
+d0:07:ca:37:6e:01 uplink_to_ECN(1207) 0000  dhmi           49
+d0:67:e5:f3:35:9f uplink_to_ECN(1207) 0000  dhmi           49
+d0:67:e5:f3:35:a1 uplink_to_ECN(1207) 0000  dhm            49
+d0:67:e5:f3:3b:0d uplink_to_ECN(1207) 0000  dhmi           49
+d0:67:e5:f3:3b:0f uplink_to_ECN(1207) 0000  dhm            49
+d2:3f:13:60:75:45 cee_ctrl_sp(0002) 0000  dhm            26
+d6:11:8c:41:99:50  cee_om_sp(0132) 0000  dhmi           51
+e6:a4:80:ef:8d:49 cee_ctrl_sp(0002) 0000  dhm            17
+e6:ce:93:7a:e6:4f cee_ctrl_sp(0002) 0000  dhm            29
+e8:b6:c2:1a:91:61 uplink_to_ECN(1207) 0000  dhmi           49
+ec:3e:f7:5a:11:5b uplink_to_ECN(1207) 0000  dhmi           49
+ec:3e:f7:e9:8a:2b uplink_to_ECN(1207) 0000  dhmi           49
+ec:a8:6b:ff:79:d8 uplink_to_ECN(1207) 0000  dhmi           49
+ee:71:86:f7:c8:45 cee_ctrl_sp(0002) 0000  dhm            27
+f4:8e:38:cb:b9:d2 uplink_to_ECN(1207) 0000  dhmi           49
+f4:8e:38:cb:bb:ca uplink_to_ECN(1207) 0000  dhmi           49
+f4:8e:38:cb:c3:7c uplink_to_ECN(1207) 0000  dhmi           49
+f6:40:52:c5:4a:4a cee_ctrl_sp(0002) 0000  dhm            20
+fa:16:3e:01:2d:4c tenant_1003(1003) 0000  dhm            51
+fa:16:3e:20:54:ac tenant_1003(1003) 0000  dhm            51
+fa:16:3e:29:dc:3c tenant_1003(1003) 0000  dhm            51
+fa:16:3e:40:5b:45 tenant_1003(1003) 0000  dhm            51
+fa:16:3e:4f:4c:e7 tenant_1003(1003) 0000  dhm            51
+fa:16:3e:62:29:3a tenant_1003(1003) 0000  dhm            51
+fa:59:ca:9e:2a:47 cee_ctrl_sp(0002) 0000  dhm            31
+fe:6f:88:b9:16:48  cee_om_sp(0132) 0000  dhmi           51
+
+Flags : d - Dynamic, s - Static, p - Permanent, n - NetLogin, m - MAC, i - IP,
+        x - IPX, l - lockdown MAC, L - lockdown-timeout MAC, M- Mirror, B - Egress Blackhole,
+        b - Ingress Blackhole, v - MAC-Based VLAN, P - Private VLAN, T - VLAN translation,
+        D - drop packet, h - Hardware Aging, o - IEEE 802.1ah Backbone MAC,
+        S - Software Controlled Deletion, r - MSRP,
+        R - TRILL Rbridge, Z - OpenFlow
+
+Total: 160 Static: 0  Perm: 0  Dyn: 160  Dropped: 0  Locked: 0  Locked with Timeout: 0
+FDB Aging time: 300
+VRANDEV_SWA_X460.5 # show fdb | in 38
+38:4f:49:4c:e6:80 uplink_to_ECN(1207) 0000  dhmi           49
+38:63:bb:b6:85:1a uplink_to_ECN(1207) 0000  dhmi           49
+40:71:83:52:38:c1 uplink_to_ECN(1207) 0000  dhmi           49
+50:9a:4c:b1:af:c2 subrack_ctrl_sp(0003) 0000  dhmi           38
+82:38:ae:61:60:da  cee_om_sp(0132) 0000  dhmi           51
+90:38:09:10:9d:3b      bb_up(0020) 0000  dhmi           50
+96:38:f8:dd:bd:4e cee_ctrl_sp(0002) 0000  dhm            32
+f4:8e:38:cb:b9:d2 uplink_to_ECN(1207) 0000  dhmi           49
+f4:8e:38:cb:bb:ca uplink_to_ECN(1207) 0000  dhmi           49
+f4:8e:38:cb:c3:7c uplink_to_ECN(1207) 0000  dhmi           49
+VRANDEV_SWA_X460.6 # show fdb | in 40
+00:04:96:9b:69:41 inter_switch_link(4000) 0000  dhmi           51
+00:40:9d:3d:33:57 uplink_to_ECN(1207) 0000  dhm            49
+0c:c4:7a:6e:40:08 uplink_to_ECN(1207) 0000  dhmi           49
+16:9b:2f:04:b5:40 cee_ctrl_sp(0002) 0000  dhm            21
+40:71:83:01:ee:33 uplink_to_ECN(1207) 0000  dhmi           49
+40:71:83:52:38:c1 uplink_to_ECN(1207) 0000  dhmi           49
+42:40:8b:80:2a:48 fuel_ctrl_sp(0028) 0000  dhmi           18
+50:9a:4c:b1:af:b0 subrack_ctrl_sp(0003) 0000  dhmi           40
+9e:4a:0d:ae:c4:40 cee_ctrl_sp(0002) 0000  dhm            24
+ce:5b:7d:84:3e:40 cee_ctrl_sp(0002) 0000  dhm            19
+f6:40:52:c5:4a:4a cee_ctrl_sp(0002) 0000  dhm            20
+fa:16:3e:40:5b:45 tenant_1003(1003) 0000  dhm            51
+VRANDEV_SWA_X460.7 # show subrack_ctrl_sp
+VLAN Interface with name subrack_ctrl_sp created by user
+    Admin State:         Enabled     Tagging:   802.1Q Tag 3
+    Description:         None
+    Virtual router:      VR-Default
+    IPv4 Forwarding:     Enabled
+    IPv4 MC Forwarding:  Disabled
+    Primary IP:          10.0.3.1/25
+    IPv6 Forwarding:     Disabled
+    IPv6 MC Forwarding:  Disabled
+    IPv6:                None
+    STPD:                None
+    Protocol:            Match all unfiltered protocols
+    Loopback:            Disabled
+    NetLogin:            Disabled
+    OpenFlow:            Disabled
+    TRILL:               Disabled
+    QosProfile:          None configured
+    Egress Rate Limit Designated Port: None configured
+    Flood Rate Limit QosProfile:       None configured
+    Ports:   24.          (Number of active ports=24)
+       Untag:      *1,     *2,     *3,     *4,     *5,     *6,     *7,
+                   *8,     *9,    *10,    *11,    *12,    *13,    *14,
+                  *15,    *16,    *36,    *38,    *40,    *42
+       Tag:       *17,    *33,    *34,    *51
+        Flags:    (*) Active, (!) Disabled, (g) Load Sharing port
+                  (b) Port blocked on the vlan, (m) Mac-Based port
+                  (a) Egress traffic allowed for NetLogin
+                  (u) Egress traffic unallowed for NetLogin
+                  (t) Translate VLAN tag for Private-VLAN
+                  (s) Private-VLAN System Port, (L) Loopback port
+                  (x) VMAN Tag Translated port
+                  (G) Multi-switch LAG Group port
+                  (H) Dynamically added by MVRP
+                  (D) TRILL Designated, (A) TRILL Appointed Forwarder
+                  (I) Dynamically added by IDM
+                  (U) Dynamically added uplink port
+                  (V) Dynamically added by VM Tracking
+
+VRANDEV_SWA_X460.8 # show fdb | in 50:9
+50:9a:4c:b1:af:b0 subrack_ctrl_sp(0003) 0000  dhmi           40
+50:9a:4c:b1:af:c2 subrack_ctrl_sp(0003) 0000  dhmi           38
+50:9a:4c:b1:b9:6a subrack_ctrl_sp(0003) 0000  dhmi           42
+50:9a:4c:b1:ba:5e subrack_ctrl_sp(0003) 0000  dhmi           36
+VRANDEV_SWA_X460.9 # show fdb | in 37
+d0:07:ca:37:6e:01 uplink_to_ECN(1207) 0000  dhmi           49
+fa:16:3e:37:83:7a tenant_1003(1003) 0000  dhm            51
+VRANDEV_SWA_X460.10 # show fdb | in 39
+00:1e:67:39:26:30 uplink_to_ECN(1207) 0000  dhmi           49
+00:1e:67:39:26:32 uplink_to_ECN(1207) 0000  dhmi           49
+VRANDEV_SWA_X460.11 # show fdb | in 41
+00:04:96:9b:69:41 cee_ctrl_sp(0002) 0000  dhm            51
+00:04:96:9b:69:41 inter_switch_link(4000) 0000  dhmi           51
+00:04:96:9b:69:41 tenant_1003(1003) 0000  dhm            51
+00:30:64:41:81:b0 uplink_to_ECN(1207) 0000  dhmi           49
+82:ea:1c:4e:6f:41 cee_ctrl_sp(0002) 0000  dhm            30
+d6:11:8c:41:99:50  cee_om_sp(0132) 0000  dhmi           51
+VRANDEV_SWA_X460.12 # show port 37,39,41,43
+VRANDEV_SWA_X460.13 # enable port 37,39,41,43
+* VRANDEV_SWA_X460.14 # show port 37,39,41,43
+* VRANDEV_SWA_X460.15 # show port 37 information detail
+Port:   37
+        Virtual-router: VR-Default
+        Type:           UTP
+        Random Early drop:      Unsupported
+        Admin state:    Enabled with  auto-speed sensing  auto-duplex
+        Link State:     Active, 1Gbps, full-duplex
+        Link Ups:       1        Last: Mon Jan 15 12:10:03 2018
+        Link Downs:     0        Last: --
+
+        VLAN cfg:
+                 Name: fuel_ctrl_sp, Internal Tag = 28, MAC-limit = No-limit, Virtual router:   VR-Default
+                 Name: cee_ctrl_sp, 802.1Q Tag = 2, MAC-limit = No-limit, Virtual router:   VR-Default
+                       Port-specific VLAN ID:    2
+        STP cfg:
+
+        Protocol:
+                 Name: fuel_ctrl_sp Protocol: ANY      Match all protocols.
+        Trunking:       Load sharing is not enabled.
+
+        EDP:            Enabled
+
+        EEE:            Disabled
+        ELSM:           Disabled
+        Ethernet OAM:           Disabled
+        Learning:       Enabled
+        Unicast Flooding:       Enabled
+        Multicast Flooding:     Enabled
+        Broadcast Flooding:     Enabled
+        Jumbo:          Disabled
+        Flow Control:   Rx-Pause: Enabled       Tx-Pause: Disabled
+        Priority Flow Control: Disabled
+        Reflective Relay:       Disabled
+        Link up/down SNMP trap filter setting:  Enabled
+        Egress Port Rate:       No-limit
+        Broadcast Rate:         No-limit
+        Multicast Rate:         No-limit
+        Unknown Dest Mac Rate:  No-limit
+        QoS Profile:    None configured
+        Ingress Rate Shaping :          Unsupported
+        Ingress IPTOS Examination:      Disabled
+        Ingress 802.1p Examination:     Enabled
+        Ingress 802.1p Inner Exam:      Disabled
+        Egress IPTOS Replacement:       Disabled
+        Egress 802.1p Replacement:      Disabled
+        NetLogin:                       Disabled
+        NetLogin port mode:             Port based VLANs
+        Smart redundancy:               Enabled
+        Software redundant port:        Disabled
+        IPFIX:   Disabled               Metering:  Ingress, All Packets, All Traffic
+                IPv4 Flow Key Mask:     SIP: 255.255.255.255            DIP: 255.255.255.255
+                IPv6 Flow Key Mask:     SIP: ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff
+                                        DIP: ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff
+
+        auto-polarity:                  Enabled
+        Shared packet buffer:           default
+        VMAN CEP egress filtering:      Disabled
+        Isolation:                      Off
+        PTP Configured:                 Disabled
+        Time-Stamping Mode:             None
+        Synchronous Ethernet:           Disabled
+        Dynamic VLAN Uplink:            Disabled
+        VM Tracking Dynamic VLANs:      Disabled
+* VRANDEV_SWA_X460.16 # save
+The configuration file primary.cfg already exists.
+Do you want to save configuration to primary.cfg and overwrite it? (y/N) Yes
+Saving configuration on master .... done!
+Configuration saved to primary.cfg successfully.
+VRANDEV_SWA_X460.17 #
+VRANDEV_SWA_X460.17 #
+VRANDEV_SWA_X460.17 # exit
+
+Connection to 192.168.2.8 closed.
+[root@fuel ~]#
+[root@fuel ~]#
+[root@fuel ~]#
+[root@fuel ~]#
+[root@fuel ~]# ssh admin@10.0.3.36
+Warning: Permanently added '10.0.3.36' (ECDSA) to the list of known hosts.
+admin@10.0.3.36's password:
+Permission denied, please try again.
+admin@10.0.3.36's password:
+/admin1-> racadm
+racadm>>serveraction powercycle
+
+racadm serveraction powercycle
+Server power operation successful
+
+racadm>>jobqueue
+racadm jobqueue
+ERROR: RAC917 : The syntax of the specified command is not correct.
+       See the command help text. To see the help text, run
+       "racadm help <subcommand>"
+racadm>>help jobqueue
+
+racadm help jobqueue
+
+jobqueue -- To View & Modify the current JobQueue
+
+jobqueue has multiple subcommands, view the help
+as shown below.
+
+Usage:
+
+racadm jobqueue help view
+racadm jobqueue help delete
+racadm jobqueue help create
+
+-----------------------------------------------------
+
+For help on viewing the properties of a group, run the command - racadm help get
+For help on configuring the properties of a group, run the command - racadm help set
+
+-----------------------------------------------------------------------
+
+
+racadm>>jobqueue view
+
+racadm jobqueue view
+-------------------------JOB QUEUE------------------------
+[Job ID=JID_131734147938]
+Job Name=Export: Server Configuration Profile
+Status=Failed
+Start Time=[Not Applicable]
+Expiration Time=[Not Applicable]
+Message=[JCP003: Job failed.]
+Percent Complete=[100]
+----------------------------------------------------------
+[Job ID=JID_160390588861]
+Job Name=Configure: BIOS.Setup.1-1
+Status=Completed
+Start Time=[Now]
+Expiration Time=[Not Applicable]
+Message=[PR19: Job completed successfully.]
+Percent Complete=[100]
+----------------------------------------------------------
+
+racadm>>get bios
+
+racadm get bios
+BiosBootSettings
+IntegratedDevices
+MemSettings
+MiscSettings
+OneTimeBoot
+ProcSettings
+SataSettings
+SerialCommSettings
+SlotBifurcation
+SlotDisablement
+SysInformation
+SysProfileSettings
+SysSecurity
+TpmAdvanced
+
+racadm>>get bios.BiosBootSettings
+
+racadm get bios.BiosBootSettings
+[Key=BIOS.Setup.1-1#BiosBootSettings]
+BootMode=Bios
+BootSeq=NIC.Integrated.1-1-1,HardDisk.List.1-1
+BootSeqRetry=Enabled
+HddFailover=Disabled
+HddSeq=RAID.Integrated.1-1
+SetBootOrderFqdd1=
+SetBootOrderFqdd10=
+SetBootOrderFqdd11=
+SetBootOrderFqdd12=
+SetBootOrderFqdd13=
+SetBootOrderFqdd14=
+SetBootOrderFqdd15=
+SetBootOrderFqdd16=
+SetBootOrderFqdd2=
+SetBootOrderFqdd3=
+SetBootOrderFqdd4=
+SetBootOrderFqdd5=
+SetBootOrderFqdd6=
+SetBootOrderFqdd7=
+SetBootOrderFqdd8=
+SetBootOrderFqdd9=
+SetLegacyHddOrderFqdd1=
+SetLegacyHddOrderFqdd10=
+SetLegacyHddOrderFqdd11=
+SetLegacyHddOrderFqdd12=
+SetLegacyHddOrderFqdd13=
+SetLegacyHddOrderFqdd14=
+SetLegacyHddOrderFqdd15=
+SetLegacyHddOrderFqdd16=
+SetLegacyHddOrderFqdd2=
+SetLegacyHddOrderFqdd3=
+SetLegacyHddOrderFqdd4=
+SetLegacyHddOrderFqdd5=
+SetLegacyHddOrderFqdd6=
+SetLegacyHddOrderFqdd7=
+SetLegacyHddOrderFqdd8=
+SetLegacyHddOrderFqdd9=
+UefiBootSeq=
+
+racadm>>exit
+
+/admin1-> exit
+CLP Session terminated
+Connection to 10.0.3.36 closed.
+[root@fuel ~]# ssh control
+Warning: Permanently added '192.168.2.8' (DSA) to the list of known hosts.
+Keyboard-interactive authentication
+Enter password for admin:
+ExtremeXOS
+Copyright (C) 1996-2015 Extreme Networks. All rights reserved.
+This product is protected by one or more US patents listed at http://www.extremenetworks.com/patents along with their foreign counterparts.
+==============================================================================
+
+Press the <tab> or '?' key at any time for completions.
+Remember to save your configuration changes.
+
+
+VRANDEV_SWA_X460.1 # show port 37 statistics
+VRANDEV_SWA_X460.2 # show fdb | in 37
+d0:07:ca:37:6e:01 uplink_to_ECN(1207) 0000  dhmi           49
+fa:16:3e:37:83:7a tenant_1003(1003) 0000  dhm            51
+VRANDEV_SWA_X460.3 # show fdb | in 37
+d0:07:ca:37:6e:01 uplink_to_ECN(1207) 0000  dhmi           49
+fa:16:3e:37:83:7a tenant_1003(1003) 0000  dhm            51
+VRANDEV_SWA_X460.3 # show fdb | in 39
+00:1e:67:39:26:30 uplink_to_ECN(1207) 0000  dhmi           49
+00:1e:67:39:26:32 uplink_to_ECN(1207) 0000  dhmi           49
+VRANDEV_SWA_X460.4 # show fdb | in 41
+00:04:96:9b:69:41 cee_ctrl_sp(0002) 0000  dhm            51
+00:04:96:9b:69:41 inter_switch_link(4000) 0000  dhmi           51
+00:04:96:9b:69:41 tenant_1003(1003) 0000  dhm            51
+00:30:64:41:81:b0 uplink_to_ECN(1207) 0000  dhmi           49
+82:ea:1c:4e:6f:41 cee_ctrl_sp(0002) 0000  dhm            30
+d6:11:8c:41:99:50  cee_om_sp(0132) 0000  dhmi           51
+VRANDEV_SWA_X460.5 # show fdb | in 43
+16:95:43:b9:cb:4f cee_ctrl_sp(0002) 0000  dhm            17
+ae:ec:96:c6:4c:43 fuel_ctrl_sp(0028) 0000  dhmi           19
+b8:ae:ed:73:f8:43 uplink_to_ECN(1207) 0000  dhmi           49
+be:97:88:50:ec:43 fuel_ctrl_sp(0028) 0000  dhmi           17
+VRANDEV_SWA_X460.6 # show port 37-43
+VRANDEV_SWA_X460.7 # show fdb | in 37
+d0:07:ca:37:6e:01 uplink_to_ECN(1207) 0000  dhmi           49
+fa:16:3e:37:83:7a tenant_1003(1003) 0000  dhm            51
+VRANDEV_SWA_X460.8 #
+VRANDEV_SWA_X460.8 #
+VRANDEV_SWA_X460.8 #
+VRANDEV_SWA_X460.8 # show port 37 statistics
+VRANDEV_SWA_X460.9 # exit
+
+Connection to 192.168.2.8 closed.
+[root@fuel ~]# ssh admin@10.0.3.37
+Warning: Permanently added '10.0.3.37' (ECDSA) to the list of known hosts.
+admin@10.0.3.37's password:
+/admin1-> racadm
+racadm>>set bios.BiosBootSettings.BootSeq NIC.Integrated.1-1-1
+
+
+racadm set bios.BiosBootSettings.BootSeq NIC.Integrated.1-1-1
+[Key=BIOS.Setup.1-1#BiosBootSettings]
+RAC1017: Successfully modified the object value and the change is in
+       pending state.
+       To apply modified value, create a configuration job and reboot
+       the system. To create the commit and reboot jobs, use "jobqueue"
+       command. For more information about the "jobqueue" command, see RACADM
+       help.
+
+racadm>>racadm jobqueue create BIOS.Setup.1-1
+
+racadm jobqueue create BIOS.Setup.1-1
+RAC1024: Successfully scheduled a job.
+Verify the job status using "racadm jobqueue view -i JID_xxxxx" command.
+Commit JID = JID_160438340305
+
+racadm>>serveraction powercycle
+
+racadm serveraction powercycle
+Server power operation successful
+
+racadm>>exit
+
+/admin1-> exit
+CLP Session terminated
+Connection to 10.0.3.37 closed.
+[root@fuel ~]# less /mnt/cee_config/config.yaml
+[root@fuel ~]# ssh admin@10.0.3.24
+Warning: Permanently added '10.0.3.24' (ECDSA) to the list of known hosts.
+admin@10.0.3.24's password:
+/admin1-> racadm
+racadm>>get bios.BiosBootSettings.BootSeq
+
+racadm get bios.BiosBootSettings.BootSeq
+[Key=BIOS.Setup.1-1#BiosBootSettings]
+BootSeq=NIC.Integrated.1-3-1,HardDisk.List.1-1,Floppy.iDRACVirtual.1-1,Optical.iDRACVirtual.1-1
+
+racadm>>exit
+
+/admin1-> exit
+CLP Session terminated
+Connection to 10.0.3.24 closed.
+[root@fuel ~]# ssh admin@10.0.3.36
+Warning: Permanently added '10.0.3.36' (ECDSA) to the list of known hosts.
+admin@10.0.3.36's password:
+/admin1-> rac
+cmdstat
+        status       : 2
+        status_tag   : COMMAND PROCESSING FAILED
+        error        : 253
+        error_tag    : COMMAND NOT RECOGNIZED
+/admin1-> racadm
+racadm>>get bios
+
+racadm get bios
+BiosBootSettings
+IntegratedDevices
+MemSettings
+MiscSettings
+OneTimeBoot
+ProcSettings
+SataSettings
+SerialCommSettings
+SlotBifurcation
+SlotDisablement
+SysInformation
+SysProfileSettings
+SysSecurity
+TpmAdvanced
+
+racadm>>get bios.IntegratedDevices
+
+racadm get bios.IntegratedDevices
+[Key=BIOS.Setup.1-1#IntegratedDevices]
+#CurrentEmbVideoState=Enabled
+EmbVideo=Enabled
+IntegratedNetwork1=Enabled
+IntegratedRaid=Enabled
+InternalUsb=On
+IoNonPostedPrefetch=Enabled
+IoatEngine=Disabled
+MmioAbove4Gb=Enabled
+OsWatchdogTimer=Disabled
+SnoopHldOff=Roll256Cycles
+SriovGlobalEnable=Disabled
+Usb3Setting=Disabled
+UsbPorts=AllOn
+
+racadm>>get
+
+racadm get
+iDRAC
+System
+LifeCycleController
+BIOS
+NIC
+STORAGE
+FC
+
+racadm>>get NIC
+
+racadm get NIC
+DeviceLevelConfig
+FCoEConfiguration
+FrmwImgMenu
+INTEL_FourthFCoETgtConfig
+INTEL_SecondFCoETgtConfig
+INTEL_ThirdFCoETgtConfig
+IscsiFirstTgtParams
+IscsiGenParams
+IscsiInitiatorParams
+NICConfig
+NICPartitioningConfig
+VndrConfigPage
+
+racadm>>get NIC.NICConfig
+
+racadm get NIC.NICConfig
+NIC.NICConfig.1 [Key=NIC.Integrated.1-1-1#NICConfig]
+NIC.NICConfig.2 [Key=NIC.Integrated.1-2-1#NICConfig]
+NIC.NICConfig.3 [Key=NIC.Integrated.1-3-1#NICConfig]
+NIC.NICConfig.4 [Key=NIC.Integrated.1-4-1#NICConfig]
+NIC.NICConfig.5 [Key=NIC.Slot.2-1-1#NICConfig]
+NIC.NICConfig.6 [Key=NIC.Slot.2-2-1#NICConfig]
+NIC.NICConfig.7 [Key=NIC.Slot.3-1-1#NICConfig]
+NIC.NICConfig.8 [Key=NIC.Slot.3-2-1#NICConfig]
+
+racadm>>get NIC.NICConfig.1
+racadm get NIC.NICConfig.1
+[Key=NIC.Integrated.1-1-1#NICConfig]
+LegacyBootProto=PXE
+#LnkSpeed=AutoNeg
+NumberVFAdvertised=64
+VLanId=0
+WakeOnLan=Disabled
+
+racadm>>get NIC.NICConfig.2
+racadm get NIC.NICConfig.2
+[Key=NIC.Integrated.1-2-1#NICConfig]
+LegacyBootProto=NONE
+#LnkSpeed=AutoNeg
+NumberVFAdvertised=64
+VLanId=0
+WakeOnLan=Disabled
+
+racadm>>get NIC.NICConfig.3
+racadm get NIC.NICConfig.3
+[Key=NIC.Integrated.1-3-1#NICConfig]
+LegacyBootProto=NONE
+LnkSpeed=AutoNeg
+#NumberVFAdvertised=1
+VLanId=0
+WakeOnLan=Disabled
+
+racadm>>get NIC.NICConfig.4
+racadm get NIC.NICConfig.4
+[Key=NIC.Integrated.1-4-1#NICConfig]
+LegacyBootProto=NONE
+LnkSpeed=AutoNeg
+#NumberVFAdvertised=1
+VLanId=0
+WakeOnLan=Disabled
+
+racadm>>set NIC.NICConfig.1.LegacyBootProto=None
+racadm set NIC.NICConfig.1.LegacyBootProto=None
+ERROR: RAC917 : The syntax of the specified command is not correct.
+       See the command help text. To see the help text, run
+       "racadm help <subcommand>"
+
+racadm>>set NIC.NICConfig.1.LegacyBootProto None
+racadm set NIC.NICConfig.1.LegacyBootProto None
+ERROR: RAC947: Invalid object value specified.
+       Make sure to specify the value depending on the type of object.
+       For more information, see RACADM help.
+
+racadm>>set nic.nicconfig.3.legacybootproto PXE
+racadm set nic.nicconfig.3.legacybootproto PXE
+[Key=NIC.Integrated.1-3-1#legacybootproto]
+RAC1017: Successfully modified the object value and the change is in
+       pending state.
+       To apply modified value, create a configuration job and reboot
+       the system. To create the commit and reboot jobs, use "jobqueue"
+       command. For more information about the "jobqueue" command, see RACADM
+       help.
+
+racadm>>set nic.nicconfig.1.legacybootproto NONE
+racadm set nic.nicconfig.1.legacybootproto NONE
+[Key=NIC.Integrated.1-1-1#legacybootproto]
+RAC1017: Successfully modified the object value and the change is in
+       pending state.
+       To apply modified value, create a configuration job and reboot
+       the system. To create the commit and reboot jobs, use "jobqueue"
+       command. For more information about the "jobqueue" command, see RACADM
+       help.
+
+racadm>>racadm jobqueue create NIC.Integrated.1-3
+
+racadm jobqueue create NIC.Integrated.1-3
+ERROR: SWC0244 : Invalid Fully Qualified Device Descriptor (FQDD).
+
+racadm>>set bios.BiosBootSettings.BootSeq NIC.Integrated.1-3 -1
+
+
+racadm set bios.BiosBootSettings.BootSeq NIC.Integrated.1-3 -1
+ERROR: Too many parameters specified for the operation.
+
+racadm>>set bios.BiosBootSettings.BootSeq NIC.Integrated.1-3 -1
+
+
+racadm set bios.BiosBootSettings.BootSeq NIC.Integrated.1-3 -1
+ERROR: Too many parameters specified for the operation.
+
+racadm>>set bios.BiosBootSettings.BootSeq NIC.Integrated.1-3-1
+
+
+racadm set bios.BiosBootSettings.BootSeq NIC.Integrated.1-3-1
+ERROR: BOOT016: Input source argument value for the boot device is incorrect or
+        not found among the boot devices on the system.
+
+racadm>>racadm jobqueue create BIOS.Setup.1-1
+
+racadm jobqueue create BIOS.Setup.1-1
+ERROR: RAC1023: Unable to create the configuration job.
+       Make sure that there is at least one object on the specified
+       device or component that has a pending value, and retry the operation.
+
+racadm>>racadm jobqueue create NIC.Integrated.1-3-1
+
+racadm jobqueue create NIC.Integrated.1-3-1
+ERROR: SUP002: Job creation failure. Retry the action. If this fails, reboot the iDRAC.
+
+racadm>>get nic.nicconfig
+
+racadm get nic.nicconfig
+NIC.nicconfig.1 [Key=NIC.Integrated.1-1-1#nicconfig]
+NIC.nicconfig.2 [Key=NIC.Integrated.1-2-1#nicconfig]
+NIC.nicconfig.3 [Key=NIC.Integrated.1-3-1#nicconfig]
+NIC.nicconfig.4 [Key=NIC.Integrated.1-4-1#nicconfig]
+NIC.nicconfig.5 [Key=NIC.Slot.2-1-1#nicconfig]
+NIC.nicconfig.6 [Key=NIC.Slot.2-2-1#nicconfig]
+NIC.nicconfig.7 [Key=NIC.Slot.3-1-1#nicconfig]
+NIC.nicconfig.8 [Key=NIC.Slot.3-2-1#nicconfig]
+
+racadm>>get nic.nicconfig.1
+racadm get nic.nicconfig.1
+[Key=NIC.Integrated.1-1-1#nicconfig]
+LegacyBootProto=PXE (Pending Value=NONE)
+#LnkSpeed=AutoNeg
+NumberVFAdvertised=64
+VLanId=0
+WakeOnLan=Disabled
+
+racadm>>get nic.nicconfig.3
+racadm get nic.nicconfig.3
+[Key=NIC.Integrated.1-3-1#nicconfig]
+LegacyBootProto=NONE (Pending Value=PXE)
+LnkSpeed=AutoNeg
+#NumberVFAdvertised=1
+VLanId=0
+WakeOnLan=Disabled
+
+racadm>>racadm jobqueue create nic.nicconfig.1
+
+racadm jobqueue create nic.nicconfig.1
+ERROR: SWC0244 : Invalid Fully Qualified Device Descriptor (FQDD).
+
+racadm>>racadm jobqueue create nic.nicconfig.3
+
+racadm jobqueue create nic.nicconfig.3
+ERROR: SWC0244 : Invalid Fully Qualified Device Descriptor (FQDD).
+
+racadm>>racadm jobqueue create NIC.nicconfig.3
+
+racadm jobqueue create NIC.nicconfig.3
+ERROR: SWC0244 : Invalid Fully Qualified Device Descriptor (FQDD).
+
+racadm>>racadm jobqueue create NIC.nicconfig
+
+racadm jobqueue create NIC.nicconfig
+ERROR: SWC0244 : Invalid Fully Qualified Device Descriptor (FQDD).
+
+racadm>>racadm jobqueue create NIC
+
+racadm jobqueue create NIC
+ERROR: SWC0244 : Invalid Fully Qualified Device Descriptor (FQDD).
+
+racadm>>serveractpacket_write_wait: Connection to 192.168.0.11 port 22: Broken pipe
+quantum@r6ks:~$
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+Session stopped
+    - Press <return> to exit tab
+    - Press R to restart session
+    - Press S to save terminal output to file
+
+Network error: Software caused connection abort
+     ┌────────────────────────────────────────────────────────────────────┐
+     │                        • MobaXterm 10.2 •                          │
+     │            (SSH client, X-server and networking tools)             │
+     │                                                                    │
+     │ ➤ SSH session to quantum@10.68.83.237                              │
+     │   • SSH compression : ✔                                            │
+     │   • SSH-browser     : ✔                                            │
+     │   • X11-forwarding  : ✔  (remote display is forwarded through SSH) │
+     │   • DISPLAY         : ✔  (automatically set on remote server)      │
+     │                                                                    │
+     │ ➤ For more info, ctrl+click on help or visit our website           │
+     └────────────────────────────────────────────────────────────────────┘
+
+Welcome to Ubuntu 16.04.2 LTS (GNU/Linux 4.10.0-42-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+258 packages can be updated.
+4 updates are security updates.
+
+Last login: Mon Jan 15 14:13:16 2018 from 147.214.46.195
+quantum@r6ks:~$ ssh fuel
+
+Attention! Unauthorized remote access is strictly prohibited!
+
+Last login: Mon Jan 15 14:12:53 2018 from 192.168.0.19
+[root@fuel ~]# pwd
+/root
+[root@fuel ~]# cd /opt/ecs-fuel-utils/
+[root@fuel ecs-fuel-utils]# ls'
+>
+> ^C
+[root@fuel ecs-fuel-utils]# ls
+3pp                        deploy_cluster.sh   expandcee.sh                   kicknodes.sh           prepare_update.sh        removeceenode.sh
+add_route_for_ccm.sh       disaster-backup.sh  expand_cluster.sh              parseyaml.rb           pre_provisioning.sh      run_autotest.sh
+apply_settings.sh          emc_alarms.tpl      initial_backup_vcic_images.sh  patches                pre_virt.sh              update_all.sh
+backup_vcic_images.inc.sh  emccleanup.sh       installcee-functions.inc.sh    patch_nailgun.sh       process_updategroups.sh  update_fuel.sh
+backup_vcic_images.sh      emcpostdeploy.sh    install_ceescripts.sh          post_vfuel_migrate.sh  python_libdir            upgrade_extreme.sh
+cee-script-lib.inc.sh      emcsetup.sh         installcee.sh                  pre_deploy.sh          reconf_zabbix.sh         zabbix_expand_workaround
+[root@fuel ecs-fuel-utils]# tmux
+-bash: tmux: command not found
+[root@fuel ecs-fuel-utils]# screen
+[detached from 13165.pts-7.fuel]
+[root@fuel ecs-fuel-utils]# screen ls
+[screen is terminating]
+[root@fuel ecs-fuel-utils]# exit
+logout
+Connection to 192.168.0.11 closed.
+quantum@r6ks:~$ ssh fuel
+
+Attention! Unauthorized remote access is strictly prohibited!
+
+Last login: Mon Jan 15 14:13:24 2018 from 192.168.0.19
+[root@fuel ~]# screen --help
+Use: screen [-opts] [cmd [args]]
+ or: screen -r [host.tty]
+
+Options:
+-4            Resolve hostnames only to IPv4 addresses.
+-6            Resolve hostnames only to IPv6 addresses.
+-a            Force all capabilities into each window's termcap.
+-A -[r|R]     Adapt all windows to the new display width & height.
+-c file       Read configuration file instead of '.screenrc'.
+-d (-r)       Detach the elsewhere running screen (and reattach here).
+-dmS name     Start as daemon: Screen session in detached mode.
+-D (-r)       Detach and logout remote (and reattach here).
+-D -RR        Do whatever is needed to get a screen session.
+-e xy         Change command characters.
+-f            Flow control on, -fn = off, -fa = auto.
+-h lines      Set the size of the scrollback history buffer.
+-i            Interrupt output sooner when flow control is on.
+-l            Login mode on (update /var/run/utmp), -ln = off.
+-ls [match]   or
+-list         Do nothing, just list our SockDir [on possible matches].
+-L            Turn on output logging.
+-m            ignore $STY variable, do create a new screen session.
+-O            Choose optimal output rather than exact vt100 emulation.
+-p window     Preselect the named window if it exists.
+-q            Quiet startup. Exits with non-zero return code if unsuccessful.
+-Q            Commands will send the response to the stdout of the querying process.
+-r [session]  Reattach to a detached screen process.
+-R            Reattach if possible, otherwise start a new session.
+-s shell      Shell to execute rather than $SHELL.
+-S sockname   Name this session <pid>.sockname instead of <pid>.<tty>.<host>.
+-t title      Set title. (window's name).
+-T term       Use term as $TERM for windows, rather than "screen".
+-U            Tell screen to use UTF-8 encoding.
+-v            Print "Screen version 4.01.00devel (GNU) 2-May-06".
+-wipe [match] Do nothing, just clean up SockDir [on possible matches].
+-x            Attach to a not detached screen. (Multi display mode).
+-X            Execute <cmd> as a screen command in the specified session.
+[root@fuel ~]# screen list
+[screen is terminating]
+[root@fuel ~]# screen --help
+Use: screen [-opts] [cmd [args]]
+ or: screen -r [host.tty]
+
+Options:
+-4            Resolve hostnames only to IPv4 addresses.
+-6            Resolve hostnames only to IPv6 addresses.
+-a            Force all capabilities into each window's termcap.
+-A -[r|R]     Adapt all windows to the new display width & height.
+-c file       Read configuration file instead of '.screenrc'.
+-d (-r)       Detach the elsewhere running screen (and reattach here).
+-dmS name     Start as daemon: Screen session in detached mode.
+-D (-r)       Detach and logout remote (and reattach here).
+-D -RR        Do whatever is needed to get a screen session.
+-e xy         Change command characters.
+-f            Flow control on, -fn = off, -fa = auto.
+-h lines      Set the size of the scrollback history buffer.
+-i            Interrupt output sooner when flow control is on.
+-l            Login mode on (update /var/run/utmp), -ln = off.
+-ls [match]   or
+-list         Do nothing, just list our SockDir [on possible matches].
+-L            Turn on output logging.
+-m            ignore $STY variable, do create a new screen session.
+-O            Choose optimal output rather than exact vt100 emulation.
+-p window     Preselect the named window if it exists.
+-q            Quiet startup. Exits with non-zero return code if unsuccessful.
+-Q            Commands will send the response to the stdout of the querying process.
+-r [session]  Reattach to a detached screen process.
+-R            Reattach if possible, otherwise start a new session.
+-s shell      Shell to execute rather than $SHELL.
+-S sockname   Name this session <pid>.sockname instead of <pid>.<tty>.<host>.
+-t title      Set title. (window's name).
+-T term       Use term as $TERM for windows, rather than "screen".
+-U            Tell screen to use UTF-8 encoding.
+-v            Print "Screen version 4.01.00devel (GNU) 2-May-06".
+-wipe [match] Do nothing, just clean up SockDir [on possible matches].
+-x            Attach to a not detached screen. (Multi display mode).
+-X            Execute <cmd> as a screen command in the specified session.
+[root@fuel ~]# screen -list
+There are screens on:
+        13165.pts-7.fuel        (Detached)
+        14428.pts-0.fuel        (Detached)
+2 Sockets in /var/run/screen/S-root.
+
+[root@fuel ~]# screen -r 13165.pts-7.fuel
+[detached from 13165.pts-7.fuel]
+[root@fuel ~]# screen -list
+There is a screen on:
+        13165.pts-7.fuel        (Detached)
+1 Socket in /var/run/screen/S-root.
+
+[root@fuel ~]# screen -r 13165.pts-7.fuel
+[detached from 13165.pts-7.fuel]
+[root@fuel ~]# screen -r 13165.pts-7.fuel
+[detached from 13165.pts-7.fuel]
+[root@fuel ~]# screen -r 13165.pts-7.fuel
+[detached from 13165.pts-7.fuel]
+[root@fuel ~]# screen -r 13165.pts-7.fuel
+[detached from 13165.pts-7.fuel]
+[root@fuel ~]# screen -r 13165.pts-7.fuel
+[detached from 13165.pts-7.fuel]
+[root@fuel ~]# screen -r 13165.pts-7.fuel
+[detached from 13165.pts-7.fuel]
+[root@fuel ~]#
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+Session stopped
+    - Press <return> to exit tab
+    - Press R to restart session
+    - Press S to save terminal output to file
+
+Network error: Software caused connection abort
+     ┌────────────────────────────────────────────────────────────────────┐
+     │                        • MobaXterm 10.2 •                          │
+     │            (SSH client, X-server and networking tools)             │
+     │                                                                    │
+     │ ➤ SSH session to quantum@10.68.83.237                              │
+     │   • SSH compression : ✔                                            │
+     │   • SSH-browser     : ✔                                            │
+     │   • X11-forwarding  : ✔  (remote display is forwarded through SSH) │
+     │   • DISPLAY         : ✔  (automatically set on remote server)      │
+     │                                                                    │
+     │ ➤ For more info, ctrl+click on help or visit our website           │
+     └────────────────────────────────────────────────────────────────────┘
+
+Welcome to Ubuntu 16.04.2 LTS (GNU/Linux 4.10.0-42-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+258 packages can be updated.
+4 updates are security updates.
+
+Last login: Tue Jan 16 09:07:57 2018 from 147.214.56.154
+quantum@r6ks:~$ ssh fuel
+
+Attention! Unauthorized remote access is strictly prohibited!
+
+Last login: Tue Jan 16 09:08:02 2018 from 192.168.0.19
+[root@fuel ~]#
+[root@fuel ~]#
+[root@fuel ~]# pwd
+/root
+[root@fuel ~]# ls
+anaconda.cmdline.vars  anaconda-parse-cmdline.log       anaconda-post-configure-autologon.log  anaconda-post-configure-sysconfig.log    anaconda-post-interface-settings.log  ericsson_backup.cfg  original-ks.cfg  x770_r6_backup.xsf
+anaconda-ks.cfg        anaconda-post-before-chroot.log  anaconda-post-configure-repos.log      anaconda-post-install-extrapackages.log  anaconda-post-partition.log           good_nova.conf       switch_r6
+[root@fuel ~]# screen -list
+There is a screen on:
+        2205.expand     (Detached)
+1 Socket in /var/run/screen/S-root.
+
+[root@fuel ~]# screen -r 2205.expand
+[detached from 2205.expand]
+[root@fuel ~]#
+[root@fuel ~]#
+[root@fuel ~]# screen -r 2205.expand
+[detached from 2205.expand]
+[root@fuel ~]#
+[root@fuel ~]#
+[root@fuel ~]# screen -r 2205.expand
+[root@fuel ~]#
+[root@fuel ~]#
+[root@fuel ~]# pwd
+/root
+[root@fuel ~]# ls
+anaconda.cmdline.vars  anaconda-parse-cmdline.log       anaconda-post-configure-autologon.log  anaconda-post-configure-sysconfig.log    anaconda-post-interface-settings.log  ericsson_backup.cfg  original-ks.cfg  x770_r6_backup.xsf
+anaconda-ks.cfg        anaconda-post-before-chroot.log  anaconda-post-configure-repos.log      anaconda-post-install-extrapackages.log  anaconda-post-partition.log           good_nova.conf       switch_r6
+[root@fuel ~]# cd /var/lo
+bash: cd: /var/lo: No such file or directory
+[root@fuel ~]# cd /var/log/
+[root@fuel log]# ls
+anaconda     audit     cobbler           dmesg.old                       fuelmenu.log    keystone    mcollective-audit.log  mcollective.log.2  nginx     ppp               rabbitmq   sa        tuned
+ansible.log  boot.log  cron              dnsmasq.log                     glusterfs       lastlog     mcollective.log        mcollective.log.3  ntpstats  puppet            remote     secure    wtmp
+astute       btmp      dhcp_checker.log  fuel-agent-env-1.log            httpd           lost+found  mcollective.log.0      messages           ostf      puppet-error.log  rhsm       spooler   yum.log
+atop         cmx.log   dmesg             fuel-bootstrap-image-build.log  installcee.log  maillog     mcollective.log.1      nailgun            ostf.log  puppet.log        rsync.log  tallylog
+[root@fuel log]# ls
+anaconda     audit     cobbler           dmesg.old                       fuelmenu.log    keystone    mcollective-audit.log  mcollective.log.2  nginx     ppp               rabbitmq   sa        tuned
+ansible.log  boot.log  cron              dnsmasq.log                     glusterfs       lastlog     mcollective.log        mcollective.log.3  ntpstats  puppet            remote     secure    wtmp
+astute       btmp      dhcp_checker.log  fuel-agent-env-1.log            httpd           lost+found  mcollective.log.0      messages           ostf      puppet-error.log  rhsm       spooler   yum.log
+atop         cmx.log   dmesg             fuel-bootstrap-image-build.log  installcee.log  maillog     mcollective.log.1      nailgun            ostf.log  puppet.log        rsync.log  tallylog
+[root@fuel log]# fuel node
+id  | status   | name         | cluster | ip           | mac               | roles             | pending_roles | online | group_id
+----+----------+--------------+---------+--------------+-------------------+-------------------+---------------+--------+---------
+111 | discover | compute-0-17 |         | 192.168.0.38 | 24:6e:96:8d:a8:94 |                   |               |      1 |
+  4 | ready    | compute-0-2  |       1 | 192.168.0.21 | 24:6e:96:31:d5:24 | compute, virt     |               |      1 |        1
+109 | discover | compute-0-18 |         | 192.168.0.35 | 24:6e:96:8d:a6:84 |                   |               |      1 |
+  2 | ready    | compute-0-3  |       1 | 192.168.0.22 | 24:6e:96:31:e1:0c | compute, virt     |               |      1 |        1
+104 | ready    | compute-0-15 |       1 | 192.168.0.34 | 24:6e:96:55:25:7c | compute           |               |      1 |        1
+  1 | ready    | compute-0-1  |       1 | 192.168.0.20 | 24:6e:96:31:e1:54 | compute, virt     |               |      1 |        1
+ 99 | ready    | compute-0-10 |       1 | 192.168.0.33 | 24:6e:96:14:a3:24 | compute           |               |      1 |        1
+110 | discover | compute-0-16 |         | 192.168.0.41 | 24:6e:96:8d:b0:64 |                   |               |      1 |
+100 | ready    | compute-0-11 |       1 | 192.168.0.39 | 24:6e:96:55:25:74 | compute           |               |      1 |        1
+102 | ready    | compute-0-14 |       1 | 192.168.0.37 | 24:6e:96:14:a4:5c | compute           |               |      1 |        1
+  7 | ready    | cic-2        |       1 | 192.168.0.27 | 42:40:8b:80:2a:48 | controller, mongo |               |      1 |        1
+101 | ready    | compute-0-12 |       1 | 192.168.0.40 | 24:6e:96:55:27:cc | compute           |               |      1 |        1
+108 | ready    | compute-0-8  |       1 | 192.168.0.31 | 24:6e:96:14:a4:0c | compute           |               |      1 |        1
+105 | ready    | compute-0-5  |       1 | 192.168.0.25 | 24:6e:96:14:5b:dc | compute           |               |      1 |        1
+106 | ready    | compute-0-6  |       1 | 192.168.0.26 | 24:6e:96:14:5b:1c | compute           |               |      1 |        1
+107 | ready    | compute-0-7  |       1 | 192.168.0.30 | 24:6e:96:14:a3:f4 | compute           |               |      1 |        1
+ 98 | ready    | compute-0-9  |       1 | 192.168.0.32 | 24:6e:96:14:a8:ac | compute           |               |      1 |        1
+  5 | ready    | cic-3        |       1 | 192.168.0.29 | ae:ec:96:c6:4c:43 | controller, mongo |               |      1 |        1
+  8 | ready    | compute-0-4  |       1 | 192.168.0.24 | 24:6e:96:5b:8d:5c | compute           |               |      1 |        1
+  3 | ready    | cinder-0-20  |       1 | 192.168.0.23 | 24:6e:96:31:df:3c | cinder            |               |      1 |        1
+112 | discover | compute-0-19 |         | 192.168.0.42 | 24:6e:96:8d:a5:cc |                   |               |      1 |
+  6 | ready    | cic-1        |       1 | 192.168.0.28 | be:97:88:50:ec:43 | controller, mongo |               |      1 |        1
+103 | ready    | compute-0-13 |       1 | 192.168.0.36 | 24:6e:96:14:5c:7c | compute           |               |      1 |        1
+[root@fuel log]#

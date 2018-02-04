@@ -1,18 +1,10 @@
-{% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
-
-{% block title %}Flasky - Edit Post{% endblock %}
-
-{% block page_content %}
-<div class="page-header">
-    <h1>Edit Post</h1>
+{% extends 'my_editor.html' %}
+{% block title %}Edit Post{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="page-header ">
+        <h2>Edit Post</h2>
+    </div>
 </div>
-<div>
-    {{ wtf.quick_form(form) }}
-</div>
-{% endblock %}
-
-{% block scripts %}
 {{ super() }}
-{{ pagedown.include_pagedown() }}
-{% endblock %}
+{%endblock%}

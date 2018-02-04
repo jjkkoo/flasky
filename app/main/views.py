@@ -6,9 +6,8 @@ from . import main
 from .forms import EditProfileForm, EditProfileAdminForm, PostForm,\
     CommentForm
 from .. import db
-from ..models import Permission, Role, User, Post, Comment
+from ..models import Permission, Role, User, Post, Comment, Tag, tagPostTable
 from ..decorators import admin_required, permission_required
-
 
 @main.after_app_request
 def after_request(response):
@@ -32,15 +31,9 @@ def server_shutdown():
     return 'Shutting down...'
 
 
-@main.route('/', methods=['GET', 'POST'])
+@main.route('/')
 def index():
     form = PostForm()
-    if current_user.can(Permission.WRITE) and form.validate_on_submit():
-        post = Post(body=form.body.data,
-                    author=current_user._get_current_object())
-        db.session.add(post)
-        db.session.commit()
-        return redirect(url_for('.index'))
     page = request.args.get('page', 1, type=int)
     show_followed = False
     if current_user.is_authenticated:
@@ -53,7 +46,16 @@ def index():
         page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
         error_out=False)
     posts = pagination.items
-    return render_template('index.html', form=form, posts=posts,
+    recent_posts = Post.query.order_by(Post.timestamp.desc()).limit(10)
+
+    stmt = db.session.query(tagPostTable.tag_id, db.func.count('*').\
+            label('tag_count')).group_by(tagPostTable.tag_id).subquery()
+    tags = [t for t in db.session.query(Tag, stmt.c.tag_count).\
+                                outerjoin(stmt, Tag.id==stmt.c.tag_id).\
+                                order_by(db.desc(stmt.c.tag_count)).limit(10) \
+                                if t[1]]
+    return render_template('index.html', form=form, posts=posts, 
+                           recent_posts=recent_posts, tags=tags,
                            show_followed=show_followed, pagination=pagination)
 
 
@@ -127,6 +129,8 @@ def post(id):
         db.session.commit()
         flash('Your comment has been published.')
         return redirect(url_for('.post', id=post.id, page=-1))
+    currentTags = map(lambda x:Tag.query.filter_by(id=x.tag_id).first(), post.tags)
+    map(lambda x:print(x.name), currentTags)
     page = request.args.get('page', 1, type=int)
     if page == -1:
         page = (post.comments.count() - 1) // \
@@ -135,7 +139,8 @@ def post(id):
         page, per_page=current_app.config['FLASKY_COMMENTS_PER_PAGE'],
         error_out=False)
     comments = pagination.items
-    return render_template('post.html', posts=[post], form=form,
+    return render_template('post.html', post=post, form=form, 
+                           currentTags=currentTags,
                            comments=comments, pagination=pagination)
 
 
@@ -147,14 +152,57 @@ def edit(id):
             not current_user.can(Permission.ADMIN):
         abort(403)
     form = PostForm()
+    currentTags = map(lambda x:Tag.query.filter_by(id=x.tag_id).first(), post.tags)
     if form.validate_on_submit():
+        post.title = form.title.data
+        tagNewList = [str.strip(x) for x in form.tag.data.split(",")]
+        for t in tagNewList:
+            tagToBe = Tag.query.filter_by(name=t).first()
+            if tagToBe == None:
+                tagToBe = Tag(name=t,
+                           author=current_user._get_current_object())
+                db.session.add(tagToBe)
+            if not tagPostTable.query.filter_by(tag_id=tagToBe.id).first():
+                tagPost = tagPostTable(tag_id=tagToBe.id, post_id=post.id)
+                db.session.add(tagPost)
+        for cT in currentTags:
+            if cT.name not in tagNewList:
+                db.session.delete(tagPostTable.query.filter_by(tag_id=cT.id,
+                                                    post_id=post.id).first())
         post.body = form.body.data
         db.session.add(post)
         db.session.commit()
         flash('The post has been updated.')
         return redirect(url_for('.post', id=post.id))
+    form.title.data = post.title
+    form.tag.data = ",".join(map(lambda x:x.name, currentTags))
     form.body.data = post.body
     return render_template('edit_post.html', form=form)
+    
+    
+@main.route('/new', methods=['GET', 'POST'])
+@login_required
+def new():
+    if current_user.can(Permission.WRITE):
+        form = PostForm()
+        if form.validate_on_submit():
+            post = Post(title=form.title.data,
+                        body=form.body.data,
+                        author=current_user._get_current_object())
+            tagNewList = map(str.strip, form.tag.data.split(","))
+            for t in tagNewList:
+                tagToBe = Tag.query.filter_by(name=t).first()
+                if not tagToBe:
+                    tagToBe = Tag(name=t,
+                               author=current_user._get_current_object())
+                    db.session.add(tagToBe)
+                tagPost = tagPostTable(tag_id=tagToBe.id, post_id=post.id)
+                db.session.add(tagPost)
+            db.session.add(post)
+            db.session.commit()
+            flash('New post has been published.')
+            return redirect(url_for('.post', id=post.id))
+        return render_template('edit_post.html', form=form)
 
 
 @main.route('/follow/<username>')

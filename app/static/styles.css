@@ -31,6 +31,9 @@ div.post-date {
 div.post-author {
     font-weight: bold;
 }
+div.post-title {
+    font-weight: bold;
+}
 div.post-thumbnail {
     position: absolute;
 }
@@ -104,4 +107,22 @@ div.flask-pagedown-preview h3 {
 }
 .table.followers tr {
     border-bottom: 1px solid #e0e0e0;
+}
+.sidebar {
+	float: right;
+	position: absolute;
+	top: 92px;
+	right: 5px;
+}
+.sidebar hr {margin-top:0;}
+.sidebar ul {padding:0;}
+.sidebar li {
+    list-style-type: none;
+    line-height: 24px;
+}
+.badge {font-size: 10px;}
+.search-form {
+    width:250px;
+    margin:5px 0;
+    padding-right:0;
 }
