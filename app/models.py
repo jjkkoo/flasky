@@ -319,12 +319,24 @@ class Post(db.Model):
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     comments = db.relationship('Comment', backref='post', lazy='dynamic')
-    tags = db.relationship('tagPostTable',
-                               foreign_keys=[tagPostTable.post_id],
-                               backref=db.backref('post', lazy='joined'),
-                               lazy='dynamic',
-                               cascade='all, delete-orphan')
+    tags = db.relationship('tagPostTable', backref='post', lazy='dynamic')
+                               # foreign_keys=[tagPostTable.post_id],
+                               # backref=db.backref('post', lazy='joined'),
+                               # lazy='dynamic',
+                               # cascade='all, delete-orphan')
 
+    @property
+    def get_tags(self):
+        return [Tag.query.filter_by(id=x.tag_id).first() for x in self.tags]
+        
+    def delete_comment(self):
+        for c in self.comments:
+            db.session.delete(c)
+            
+    def delete_tagPostTable(self):
+        for t in self.tags:
+            db.session.delete(t)
+    
     @staticmethod
     def on_changed_body(target, value, oldvalue, initiator):
         # allowed_tags = ['a', 'abbr', 'acronym', 'b', 'blockquote', 'code',

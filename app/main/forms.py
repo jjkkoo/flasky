@@ -12,9 +12,12 @@ class NameForm(FlaskForm):
     submit = SubmitField('Submit')
 
 class PostForm(FlaskForm):
-    title = StringField(label='Title', validators=[DataRequired()])   #todo
-    tag = StringField(label='Tags')    #todo
-    body = PageDownField("What's on your mind?", validators=[DataRequired()])
+    title = StringField(label='Title', validators=[DataRequired()], 
+            render_kw={"placeholder": "Title DataRequired"})
+    tag = StringField(label='Tags', 
+            render_kw={"placeholder": "Seperated with comma, Auto-stripped."})
+    body = PageDownField("What's on your mind?", validators=[DataRequired()], 
+            render_kw={"placeholder": "Markdown supported, first line also used as abstract."})
     submit = SubmitField('Submit')
 
 class CommentForm(FlaskForm):

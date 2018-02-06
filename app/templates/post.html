@@ -8,7 +8,11 @@
 
     <div class="container">
         <div class="page-header">
-            <a href="{{ url_for('.post', id=post.id)}}" > <h4>{{ post.title }}</h4> </a>
+            <h4> <a href="{{ url_for('.post', id=post.id)}}" > {{ post.title }} </a>
+                <small>{% for tag in tags %}
+                    <a href= "{{ url_for('.index', tag=tag.id)}}" > {{ tag.name }} </a>
+                    {% endfor %}
+                </small></h4>
         </div>
     </div>
     <div class="post-thumbnail">
@@ -34,6 +38,11 @@
             {% elif current_user.is_administrator() %}
             <a href="{{ url_for('.edit', id=post.id) }}">
                 <span class="label label-danger">Edit [Admin]</span>
+            </a>
+            {% endif %}
+            {% if current_user == post.author or current_user.is_administrator() %}
+            <a href="{{ url_for('.delete', id=post.id) }}">
+                <span class="label label-danger">Delete</span>
             </a>
             {% endif %}
             <a href="{{ url_for('.post', id=post.id) }}">

@@ -9,6 +9,13 @@ from .. import db
 from ..models import Permission, Role, User, Post, Comment, Tag, tagPostTable
 from ..decorators import admin_required, permission_required
 
+import logging
+
+logging.basicConfig(level=logging.DEBUG,
+                format='%(asctime)s %(levelname)s %(filename)s %(lineno)s %(message)s',
+                filename='viewtest.log',
+                filemode='w')
+                
 @main.after_app_request
 def after_request(response):
     for query in get_debug_queries():
@@ -35,10 +42,14 @@ def server_shutdown():
 def index():
     form = PostForm()
     page = request.args.get('page', 1, type=int)
-    show_followed = False
+    tagToShow = request.args.get("tag", None, type=int)
+    show_followed, show_tagged = False, False
     if current_user.is_authenticated:
         show_followed = bool(request.cookies.get('show_followed', ''))
-    if show_followed:
+    if tagToShow != None:
+        query = Post.query.join(tagPostTable, tagPostTable.post_id == Post.id)\
+                                     .filter(tagPostTable.tag_id == tagToShow)
+    elif show_followed:
         query = current_user.followed_posts
     else:
         query = Post.query
@@ -50,12 +61,12 @@ def index():
 
     stmt = db.session.query(tagPostTable.tag_id, db.func.count('*').\
             label('tag_count')).group_by(tagPostTable.tag_id).subquery()
-    tags = [t for t in db.session.query(Tag, stmt.c.tag_count).\
+    tagsInSidebar = [t for t in db.session.query(Tag, stmt.c.tag_count).\
                                 outerjoin(stmt, Tag.id==stmt.c.tag_id).\
                                 order_by(db.desc(stmt.c.tag_count)).limit(10) \
                                 if t[1]]
     return render_template('index.html', form=form, posts=posts, 
-                           recent_posts=recent_posts, tags=tags,
+                           recent_posts=recent_posts, tags=tagsInSidebar,
                            show_followed=show_followed, pagination=pagination)
 
 
@@ -129,8 +140,7 @@ def post(id):
         db.session.commit()
         flash('Your comment has been published.')
         return redirect(url_for('.post', id=post.id, page=-1))
-    currentTags = map(lambda x:Tag.query.filter_by(id=x.tag_id).first(), post.tags)
-    map(lambda x:print(x.name), currentTags)
+    tags = map(lambda x:Tag.query.filter_by(id=x.tag_id).first(), post.tags)
     page = request.args.get('page', 1, type=int)
     if page == -1:
         page = (post.comments.count() - 1) // \
@@ -139,8 +149,7 @@ def post(id):
         page, per_page=current_app.config['FLASKY_COMMENTS_PER_PAGE'],
         error_out=False)
     comments = pagination.items
-    return render_template('post.html', post=post, form=form, 
-                           currentTags=currentTags,
+    return render_template('post.html', post=post, form=form, tags=tags,
                            comments=comments, pagination=pagination)
 
 
@@ -157,14 +166,16 @@ def edit(id):
         post.title = form.title.data
         tagNewList = [str.strip(x) for x in form.tag.data.split(",")]
         for t in tagNewList:
-            tagToBe = Tag.query.filter_by(name=t).first()
-            if tagToBe == None:
-                tagToBe = Tag(name=t,
-                           author=current_user._get_current_object())
-                db.session.add(tagToBe)
-            if not tagPostTable.query.filter_by(tag_id=tagToBe.id).first():
-                tagPost = tagPostTable(tag_id=tagToBe.id, post_id=post.id)
-                db.session.add(tagPost)
+            if len(t) > 0:
+                tagToBe = Tag.query.filter_by(name=t).first()
+                if tagToBe == None:
+                    tagToBe = Tag(name=t,
+                               author=current_user._get_current_object())
+                    db.session.add(tagToBe)
+                if not tagPostTable.query.filter_by(tag_id=tagToBe.id, 
+                                                    post_id=post.id).first():
+                    tagPost = tagPostTable(tag_id=tagToBe.id, post_id=post.id)
+                    db.session.add(tagPost)
         for cT in currentTags:
             if cT.name not in tagNewList:
                 db.session.delete(tagPostTable.query.filter_by(tag_id=cT.id,
@@ -191,19 +202,36 @@ def new():
                         author=current_user._get_current_object())
             tagNewList = map(str.strip, form.tag.data.split(","))
             for t in tagNewList:
-                tagToBe = Tag.query.filter_by(name=t).first()
-                if not tagToBe:
-                    tagToBe = Tag(name=t,
-                               author=current_user._get_current_object())
-                    db.session.add(tagToBe)
-                tagPost = tagPostTable(tag_id=tagToBe.id, post_id=post.id)
-                db.session.add(tagPost)
+                if len(t) > 0:
+                    tagToBe = Tag.query.filter_by(name=t).first()
+                    if not tagToBe:
+                        tagToBe = Tag(name=t,
+                                   author=current_user._get_current_object())
+                        db.session.add(tagToBe)
+                        db.session.commit()
+                    tagPost = tagPostTable(tag_id=tagToBe.id, post_id=post.id)
+                    db.session.add(tagPost)
             db.session.add(post)
             db.session.commit()
             flash('New post has been published.')
             return redirect(url_for('.post', id=post.id))
         return render_template('edit_post.html', form=form)
 
+
+@main.route('/delete/<int:id>')
+@login_required
+def delete(id):
+    post = Post.query.get_or_404(id)
+    if current_user != post.author and \
+            not current_user.can(Permission.ADMIN):
+        abort(403)
+    post.delete_comment()
+    post.delete_tagPostTable()
+    db.session.delete(post)
+    db.session.commit()
+    flash('Your post has been deleted.')
+    return redirect(url_for('.index'))
+        
 
 @main.route('/follow/<username>')
 @login_required

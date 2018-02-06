@@ -11,7 +11,7 @@ class Config:
     MAIL_USE_SSL = True
     # MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS', True)
     FLASKY_MAIL_SUBJECT_PREFIX = '[noreplyRegistry]'
-    FLASKY_MAIL_SENDER = 'noreplyRegistry <%s>' % (os.environ.get('MAIL_USERNAME'))
+    FLASKY_MAIL_SENDER = os.environ.get('MAIL_USERNAME')
     FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN')
     SSL_REDIRECT = False
     SSL_DISABLE = False

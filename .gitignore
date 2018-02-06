@@ -38,9 +38,22 @@ nosetests.xml
 # SQLite databases
 *.sqlite
 
+# database migrations
+migrations
+
 # Virtual environment
 venv
 
 # Environment files
 .env
 .env-mysql
+
+#debug logs
+*.log
+
+# uploads
+app/static/uploads
+
+
+
+

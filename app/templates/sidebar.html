@@ -1,6 +1,5 @@
-
-<div class="col-lg-3 visible-lg sidebar">
-    <h2>Recent posts</h2>
+<div>
+    <h3>Recent posts</h3>
     <hr>
     <ul>
     {% for post in recent_posts %}
@@ -8,7 +7,7 @@
     {% endfor %}
     </ul>
     {%- if tags -%}
-    <h2>Top tags</h2>
+    <h3>Top tags</h3>
     <hr>
     <ul>
     {% for tag in tags %}
