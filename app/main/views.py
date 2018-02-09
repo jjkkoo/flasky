@@ -3,8 +3,7 @@ from flask import render_template, redirect, url_for, abort, flash, request,\
 from flask_login import login_required, current_user
 from flask_sqlalchemy import get_debug_queries
 from . import main
-from .forms import EditProfileForm, EditProfileAdminForm, PostForm,\
-    CommentForm
+from .forms import EditProfileForm, EditProfileAdminForm, PostForm, CommentForm
 from .. import db
 from ..models import Permission, Role, User, Post, Comment, Tag, tagPostTable
 from ..decorators import admin_required, permission_required
@@ -15,7 +14,142 @@ logging.basicConfig(level=logging.DEBUG,
                 format='%(asctime)s %(levelname)s %(filename)s %(lineno)s %(message)s',
                 filename='viewtest.log',
                 filemode='w')
+
+import os.path
+from PIL import Image
+import simplejson
+import traceback
+from werkzeug import secure_filename
+from flask import send_from_directory
+from .upload_file import uploadfile
+from cv2 import VideoCapture, imwrite
+
+ALLOWED_EXTENSIONS = set(['mp4', 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'pdf', 'mp3', 'txt', 'rar', 'zip', '7zip', 'doc', 'docx'])
+def allowed_file(filename):
+    return '.' in filename and \
+        filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+def gen_file_name(filename):
+    """
+    If file was exist already, rename it and return a new name
+    """
+
+    i = 1
+    while os.path.exists(os.path.join(current_app.config['UPLOAD_FOLDER'], filename)):
+        name, extension = os.path.splitext(filename)
+        filename = '%s_%s%s' % (name, str(i), extension)
+        i += 1
+
+    return filename
+
+
+def create_thumbnail(image):
+    try:
+        base_width = 80
+        img = Image.open(os.path.join(current_app.config['UPLOAD_FOLDER'], image))
+        w_percent = (base_width / float(img.size[0]))
+        h_size = int((float(img.size[1]) * float(w_percent)))
+        img = img.resize((base_width, h_size), Image.ANTIALIAS)
+        img.save(os.path.join(current_app.config['THUMBNAIL_FOLDER'], image))
+        return True
+    except:
+        print(traceback.format_exc())
+        return False
+        
+def create_poster(video):
+    try:
+        vidcap = VideoCapture(os.path.join(current_app.config['UPLOAD_FOLDER'], video))
+        success,image = vidcap.read()
+        imwrite(os.path.join(current_app.config['THUMBNAIL_FOLDER'],"%s.jpg" % (video[:video.rindex('.')])), image)
+        return True
+    except:
+        print(traceback.format_exc())
+        return False
+
+@main.route("/edit/upload", methods=['GET', 'POST'])
+@main.route("/upload", methods=['GET', 'POST'])
+@login_required
+def upload():
+    if request.method == 'POST':
+        files = request.files['file']
+
+        if files:
+            filename = secure_filename(files.filename)
+            filename = gen_file_name(filename)
+            mime_type = files.content_type
+
+            if not allowed_file(files.filename):
+                result = uploadfile(name=filename, type=mime_type, size=0, not_allowed_msg="File type not allowed")
+
+            else:
+                # save file to disk
+                uploaded_file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+                files.save(uploaded_file_path)
+
+                # create thumbnail after saving
+                if mime_type.startswith('image'):
+                    create_thumbnail(filename)
+                elif mime_type.startswith('video'):
+                    create_poster(filename)
                 
+                # get file size after saving
+                size = os.path.getsize(uploaded_file_path)
+
+                # return json for js call back
+                result = uploadfile(name=filename, type=mime_type, size=size)
+            
+            return simplejson.dumps({"files": [result.get_file()]})
+
+    if request.method == 'GET':
+        # get all file in ./data directory
+        files = [f for f in os.listdir(current_app.config['UPLOAD_FOLDER']) if os.path.isfile(os.path.join(current_app.config['UPLOAD_FOLDER'],f))]
+        
+        file_display = []
+
+        for f in files:
+            size = os.path.getsize(os.path.join(current_app.config['UPLOAD_FOLDER'], f))
+            file_saved = uploadfile(name=f, size=size)
+            file_display.append(file_saved.get_file())
+
+        return simplejson.dumps({"files": file_display})
+
+    return redirect(url_for('index'))
+
+@main.route("/edit/delete/<string:filename>", methods=['DELETE'])
+@main.route("/delete/<string:filename>", methods=['DELETE'])
+@login_required
+def delete(filename):
+    file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+    file_thumb_path = os.path.join(current_app.config['THUMBNAIL_FOLDER'], filename)
+
+    if os.path.exists(file_path):
+        try:
+            os.remove(file_path)
+
+            if os.path.exists(file_thumb_path):
+                os.remove(file_thumb_path)
+            
+            return simplejson.dumps({filename: 'True'})
+        except:
+            return simplejson.dumps({filename: 'False'})
+
+
+# serve static files
+@main.route("/edit/thumbnail/<string:filename>", methods=['GET'])
+@main.route("/thumbnail/<string:filename>", methods=['GET'])
+@login_required
+def get_thumbnail(filename):
+    return send_from_directory(current_app.config['THUMBNAIL_FOLDER'], filename=filename)
+
+@main.route("/edit/data/<string:filename>", methods=['GET'])
+@main.route("/data/<string:filename>", methods=['GET'])
+@login_required
+def get_file(filename):
+    return send_from_directory(os.path.join(current_app.config['UPLOAD_FOLDER']), filename=filename)
+    
+
+            
 @main.after_app_request
 def after_request(response):
     for query in get_debug_queries():
@@ -218,9 +352,9 @@ def new():
         return render_template('edit_post.html', form=form)
 
 
-@main.route('/delete/<int:id>')
+@main.route('/delete_post/<int:id>', methods=['GET'])
 @login_required
-def delete(id):
+def delete_post(id):
     post = Post.query.get_or_404(id)
     if current_user != post.author and \
             not current_user.can(Permission.ADMIN):
