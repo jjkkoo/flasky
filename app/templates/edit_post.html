@@ -291,8 +291,8 @@
 //     data.url = 'http://' + window.location.host + '\/' + 'upload';
 //     console.log(data.url)
 // });
-$('#fileupload').bind('fileuploaddone', function (e, data) {console.log(data)});
-$('#fileupload').bind('fileuploaddone', function (e, data) {console.log(data.result.files[0].type, data.result.files[0].url)});
+// $('#fileupload').bind('fileuploaddone', function (e, data) {console.log(data)});
+// $('#fileupload').bind('fileuploaddone', function (e, data) {console.log(data.result.files[0].type, data.result.files[0].url)});
 $('#fileupload').bind('fileuploaddone', function (e, data) {
     var baseurl = window.location.href;
     var url = baseurl.substring(0, baseurl.lastIndexOf("\/"))
@@ -301,7 +301,7 @@ $('#fileupload').bind('fileuploaddone', function (e, data) {
         data.result.files[0].url + "\" class=\"img-responsive\" alt=\"Cinque Terre\">\n"
     }
     else  if (data.result.files[0].type.lastIndexOf("video", 0) == 0) {
-             $("textarea")[0].value = $("textarea")[0].value + "\n<video id=\"video\" controls=\"\" preload=\"none\"" +
+             $("textarea")[0].value = $("textarea")[0].value + "\n<video controls=\"\" preload=\"none\"" +
              " poster=\""+ url + "/" +  data.result.files[0].thumbnailUrl +"\">" +
              "<source id=\"mp4\"  src=\"" + url + "/" + data.result.files[0].url + "\" type=\"video/mp4\">" +
              "<p>Your user agent does not support the HTML5 Video element.</p></video>\n"

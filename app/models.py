@@ -11,6 +11,17 @@ from . import db, login_manager
 
 md_extensions=['codehilite', 'fenced_code']
 
+class UploadFolder(db.Model):
+    __tablename__ = 'uploadfolders'
+    id = db.Column(db.Integer, primary_key=True)
+    current_id = db.Column(db.Integer)
+    
+    @staticmethod
+    def create_first():
+        uploadFolder = UploadFolder(id = 1, current_id = 1)
+        db.session.add(uploadFolder)
+        db.session.commit()
+    
 class Permission:
     FOLLOW = 1
     COMMENT = 2
@@ -131,6 +142,14 @@ class User(UserMixin, db.Model):
     comments = db.relationship('Comment', backref='author', lazy='dynamic')
     tags = db.relationship('Tag', backref='author', lazy='dynamic')
 
+    @staticmethod
+    def create_admin():
+        admin_role_id = Role.query.filter_by(name = 'Administrator').first().id
+        u = User(email = 'admin@admin.com', username = 'admin', password_hash = generate_password_hash('admin'), 
+                                        role_id = admin_role_id, confirmed = 1)
+        db.session.add(u)
+        db.session.commit()
+        
     @staticmethod
     def add_self_follows():
         for user in User.query.all():
@@ -319,6 +338,7 @@ class Post(db.Model):
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     comments = db.relationship('Comment', backref='post', lazy='dynamic')
+    upload_folder = db.Column(db.Text)
     tags = db.relationship('tagPostTable', backref='post', lazy='dynamic')
                                # foreign_keys=[tagPostTable.post_id],
                                # backref=db.backref('post', lazy='joined'),

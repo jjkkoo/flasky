@@ -23,7 +23,7 @@ class Config:
     FLASKY_SLOW_DB_QUERY_TIME = 0.5
     
     UPLOAD_FOLDER = os.path.join(basedir, 'upload/')
-    THUMBNAIL_FOLDER = os.path.join(basedir, 'upload/thumbnail/')
+    # THUMBNAIL_FOLDER = os.path.join(basedir, 'upload/thumbnail/')
     MAX_CONTENT_LENGTH = 1024 * 1024 * 1024
 
     @staticmethod

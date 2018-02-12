@@ -15,7 +15,7 @@ import sys
 import click
 from flask_migrate import Migrate, upgrade
 from app import create_app, db
-from app.models import User, Follow, Role, Permission, Post, Comment
+from app.models import User, Follow, Role, Permission, Post, Comment, UploadFolder
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
 migrate = Migrate(app, db)
@@ -76,3 +76,11 @@ def deploy():
 
     # ensure all users are following themselves
     User.add_self_follows()
+    
+    # create first upload folder in db
+    UploadFolder.create_first()
+    
+# create admin, this should not be used in deploy
+@app.cli.command()
+def create_admin():
+    User.create_admin()

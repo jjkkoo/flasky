@@ -12,8 +12,8 @@ class NameForm(FlaskForm):
     submit = SubmitField('Submit')
 
 class PostForm(FlaskForm):
-    title = StringField(label='Title', validators=[DataRequired()], 
-            render_kw={"placeholder": "Title DataRequired"})
+    title = StringField(label='Title', 
+            render_kw={"placeholder": "Default Title is date plus daily index if left blank"})
     tag = StringField(label='Tags', 
             render_kw={"placeholder": "Seperated with comma, Auto-stripped."})
     body = PageDownField("What's on your mind?", validators=[DataRequired()], 

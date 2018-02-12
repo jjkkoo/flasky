@@ -1,11 +1,11 @@
 from flask import render_template, redirect, url_for, abort, flash, request,\
-    current_app, make_response
+    current_app, make_response, session
 from flask_login import login_required, current_user
 from flask_sqlalchemy import get_debug_queries
 from . import main
 from .forms import EditProfileForm, EditProfileAdminForm, PostForm, CommentForm
 from .. import db
-from ..models import Permission, Role, User, Post, Comment, Tag, tagPostTable
+from ..models import Permission, Role, User, Post, Comment, Tag, tagPostTable, UploadFolder
 from ..decorators import admin_required, permission_required
 
 import logging
@@ -15,7 +15,8 @@ logging.basicConfig(level=logging.DEBUG,
                 filename='viewtest.log',
                 filemode='w')
 
-import os.path
+import os
+import subprocess
 from PIL import Image
 import simplejson
 import traceback
@@ -23,8 +24,9 @@ from werkzeug import secure_filename
 from flask import send_from_directory
 from .upload_file import uploadfile
 from cv2 import VideoCapture, imwrite
+from datetime import date
 
-ALLOWED_EXTENSIONS = set(['mp4', 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'pdf', 'mp3', 'txt', 'rar', 'zip', '7zip', 'doc', 'docx'])
+ALLOWED_EXTENSIONS = set(['mp4', 'mov', 'jpg', 'jpeg', 'png', 'gif', 'bmp', 'pdf', 'mp3', 'txt', 'rar', 'zip', '7zip', 'doc', 'docx'])
 def allowed_file(filename):
     return '.' in filename and \
         filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -44,84 +46,138 @@ def gen_file_name(filename):
     return filename
 
 
-def create_thumbnail(image):
+def create_thumbnail(image, folderPath):
     try:
         base_width = 80
-        img = Image.open(os.path.join(current_app.config['UPLOAD_FOLDER'], image))
+        img = Image.open(os.path.join(folderPath, image))
         w_percent = (base_width / float(img.size[0]))
         h_size = int((float(img.size[1]) * float(w_percent)))
         img = img.resize((base_width, h_size), Image.ANTIALIAS)
-        img.save(os.path.join(current_app.config['THUMBNAIL_FOLDER'], image))
+        img.save(os.path.join(folderPath, "thumbnail/" + image))
+        return True
+    except:
+        print(traceback.format_exc())
+        return False
+    
+def process_image(image, folderPath, resize=False):
+    try:
+        thumbnail_width = 80
+        imgOrig = Image.open(os.path.join(folderPath, "original/" + image))
+        w_percent = (thumbnail_width / float(imgOrig.size[0]))
+        h_size = int((float(imgOrig.size[1]) * float(w_percent)))
+        img = imgOrig.resize((thumbnail_width, h_size), Image.ANTIALIAS)
+        img.save(os.path.join(folderPath, "thumbnail/" + image))
+        if resize:
+            final_width = 1440
+            w_percent = (final_width / float(imgOrig.size[0]))
+            h_size = int((float(imgOrig.size[1]) * float(w_percent)))
+            img = imgOrig.resize((final_width, h_size), Image.ANTIALIAS)
+            img.save(os.path.join(folderPath, image))
+        else:
+            os.symlink(os.path.join(folderPath, "original/" + image), os.path.join(folderPath, image))
         return True
     except:
         print(traceback.format_exc())
         return False
         
-def create_poster(video):
+def process_video(video, folderPath):
     try:
-        vidcap = VideoCapture(os.path.join(current_app.config['UPLOAD_FOLDER'], video))
+        vidOrig = os.path.join(folderPath, "original/" + video)
+        vidFinal = os.path.join(folderPath, "%s.mp4" % (video[:video.rindex('.')]))
+        command = "ffmpeg -i %s -vf scale=960:-1 %s" % (vidOrig, vidFinal)
+        logging.debug("ffmpeg command: %s", command)
+        p = subprocess.Popen(command, shell=True,
+                        stdin=subprocess.PIPE,
+                        stdout=subprocess.PIPE,
+                        stderr=subprocess.PIPE,
+                        )
+        stdout_value, stderr_value = p.communicate()
+        logging.debug("ffmpeg result: %s", stdout_value)
+        if not p.returncode:
+            logging.error("ffmpeg error %s: %s",p.returncode, stderr_value)
+        vidcap = VideoCapture(vidFinal)
         success,image = vidcap.read()
-        imwrite(os.path.join(current_app.config['THUMBNAIL_FOLDER'],"%s.jpg" % (video[:video.rindex('.')])), image)
+        imwrite(os.path.join(folderPath, "thumbnail/%s.jpg" % (video[:video.rindex('.')])), image)
+        logging.debug("writing thumbnail: %s", os.path.join(folderPath, "thumbnail/%s.jpg" % (video[:video.rindex('.')])))
         return True
     except:
         print(traceback.format_exc())
         return False
+        
+def get_folderPath(postId):
+    if postId == 'new':
+        if session['new_folderpath']:
+            return session['new_folderpath']
+        else:
+            abort(404)
+    else:
+        return Post.query.get_or_404(postId).upload_folder
+        
+def create_folderPath():
+    today = date.today()
+    dateFolderPath = os.path.join(current_app.config['UPLOAD_FOLDER'], str(today))
+    currentFolder = UploadFolder.query.get(1)
+    logging.debug("currentFolder.current_id: %s",currentFolder.current_id )
+    if os.path.exists(dateFolderPath):
+        currentFolder.current_id += 1
+    else:
+        currentFolder.current_id = 1
+    logging.debug("new currentFolder.current_id: %s",currentFolder.current_id )
+    db.session.add(currentFolder)
+    db.session.commit()
+    folderpath = os.path.join(dateFolderPath, str(currentFolder.current_id))
+    session['new_folderpath'] = folderpath
+    session['default_title'] = "%s_%s" % (today, currentFolder.current_id)
+    logging.debug("5***%s",folderpath )
+    os.makedirs(os.path.join(folderpath, "thumbnail"))
+    os.makedirs(os.path.join(folderpath, "original"))
+    return folderpath
 
+# @main.route("/edit/upload", defaults={'postId': None}, methods=['GET', 'POST'])
+# @main.route("/upload", defaults={'postId': None}, methods=['GET', 'POST'])
 @main.route("/edit/upload", methods=['GET', 'POST'])
 @main.route("/upload", methods=['GET', 'POST'])
 @login_required
 def upload():
+    folderPath = get_folderPath(request.headers.get('referer').split('/')[-1])
+    logging.debug("/upload folderPath: %s", folderPath)
     if request.method == 'POST':
         files = request.files['file']
-
         if files:
             filename = secure_filename(files.filename)
             filename = gen_file_name(filename)
             mime_type = files.content_type
-
             if not allowed_file(files.filename):
                 result = uploadfile(name=filename, type=mime_type, size=0, not_allowed_msg="File type not allowed")
-
             else:
-                # save file to disk
-                uploaded_file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+                uploaded_file_path = os.path.join(folderPath, "original/" + filename)
                 files.save(uploaded_file_path)
-
-                # create thumbnail after saving
-                if mime_type.startswith('image'):
-                    create_thumbnail(filename)
-                elif mime_type.startswith('video'):
-                    create_poster(filename)
-                
-                # get file size after saving
                 size = os.path.getsize(uploaded_file_path)
-
-                # return json for js call back
+                if mime_type.startswith('image'):
+                    process_image(filename, folderPath, size>2*1024*1024)
+                elif mime_type.startswith('video'):
+                    process_video(filename, folderPath)
                 result = uploadfile(name=filename, type=mime_type, size=size)
-            
             return simplejson.dumps({"files": [result.get_file()]})
 
     if request.method == 'GET':
-        # get all file in ./data directory
-        files = [f for f in os.listdir(current_app.config['UPLOAD_FOLDER']) if os.path.isfile(os.path.join(current_app.config['UPLOAD_FOLDER'],f))]
-        
+        files = [f for f in os.listdir(folderPath) if os.path.isfile(os.path.join(folderPath,f))]
         file_display = []
-
         for f in files:
-            size = os.path.getsize(os.path.join(current_app.config['UPLOAD_FOLDER'], f))
+            size = os.path.getsize(os.path.join(folderPath, f))
             file_saved = uploadfile(name=f, size=size)
             file_display.append(file_saved.get_file())
-
         return simplejson.dumps({"files": file_display})
-
     return redirect(url_for('index'))
 
 @main.route("/edit/delete/<string:filename>", methods=['DELETE'])
 @main.route("/delete/<string:filename>", methods=['DELETE'])
 @login_required
 def delete(filename):
-    file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
-    file_thumb_path = os.path.join(current_app.config['THUMBNAIL_FOLDER'], filename)
+    folderPath = get_folderPath(request.headers.get('referer').split('/')[-1])    
+    file_path = os.path.join(folderPath, filename)
+    file_thumb_path = os.path.join(folderPath, "thumbnail/" + filename)
+    file_ogrinal_path = os.path.join(folderPath, "original/" + filename)
 
     if os.path.exists(file_path):
         try:
@@ -129,6 +185,8 @@ def delete(filename):
 
             if os.path.exists(file_thumb_path):
                 os.remove(file_thumb_path)
+            if os.path.exists(file_ogrinal_path):
+                os.remove(file_ogrinal_path)
             
             return simplejson.dumps({filename: 'True'})
         except:
@@ -140,16 +198,19 @@ def delete(filename):
 @main.route("/thumbnail/<string:filename>", methods=['GET'])
 @login_required
 def get_thumbnail(filename):
-    return send_from_directory(current_app.config['THUMBNAIL_FOLDER'], filename=filename)
+    folderPath = get_folderPath(request.headers.get('referer').split('/')[-1])  
+    file_thumb_path = os.path.join(folderPath, "thumbnail")
+    logging.debug("get_thumbnail: %s/%s", file_thumb_path,  filename)
+    return send_from_directory(file_thumb_path, filename)
 
 @main.route("/edit/data/<string:filename>", methods=['GET'])
 @main.route("/data/<string:filename>", methods=['GET'])
 @login_required
 def get_file(filename):
-    return send_from_directory(os.path.join(current_app.config['UPLOAD_FOLDER']), filename=filename)
+    folderPath = get_folderPath(request.headers.get('referer').split('/')[-1])
+    logging.debug("get_file: %s/%s", folderPath, filename )
+    return send_from_directory(folderPath, filename)
     
-
-            
 @main.after_app_request
 def after_request(response):
     for query in get_debug_queries():
@@ -330,9 +391,12 @@ def edit(id):
 def new():
     if current_user.can(Permission.WRITE):
         form = PostForm()
+        if request.method == 'GET' and not session['new_folderpath']:
+            create_folderPath()
         if form.validate_on_submit():
-            post = Post(title=form.title.data,
+            post = Post(title = form.title.data.strip() if form.title.data.strip() != '' else session['default_title'],
                         body=form.body.data,
+                        upload_folder = session['new_folderpath'],
                         author=current_user._get_current_object())
             tagNewList = map(str.strip, form.tag.data.split(","))
             for t in tagNewList:
@@ -347,6 +411,7 @@ def new():
                     db.session.add(tagPost)
             db.session.add(post)
             db.session.commit()
+            session['new_folderpath'], session['default_title']= None, None
             flash('New post has been published.')
             return redirect(url_for('.post', id=post.id))
         return render_template('edit_post.html', form=form)
